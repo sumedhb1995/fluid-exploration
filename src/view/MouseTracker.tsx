@@ -1,7 +1,6 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { FluidContainer } from "@fluid-experimental/fluid-static";
-// import { useKeyValueDataObject } from "../utils/useDataObjects";
 
 interface CursorInfo {
     x: number;
@@ -12,19 +11,18 @@ interface CursorInfo {
 
 const userId = (Date.now()*Math.random()).toString();
 
-export function MouseTracker(props: {container: FluidContainer}) {
-    // const [data, setPair] = useKeyValueDataObject("default", props.container)
-
-    const [data, setData] = React.useState<{ [key: string]: CursorInfo }>({});
-    const [dataObject, setDataObject] = React.useState<KeyValueDataObject>();
+export function useMouseTracker(container: FluidContainer): Record<string, CursorInfo> {
+    const [data, setData] = React.useState<Record<string,CursorInfo>>({});
+    const [dataObject, setDataObject] = React.useState<KeyValueDataObject | undefined>();
 
     React.useEffect(() => {
         const load = async () => {
-            const keyValueDataObject = await props.container.getDataObject('default');
+            const keyValueDataObject = await container.getDataObject("default");
             setDataObject(keyValueDataObject);
         }
+
         load();
-    }, [props.container]);
+    }, [container]);
 
     React.useEffect(() => {
         if (dataObject) {
@@ -67,22 +65,21 @@ export function MouseTracker(props: {container: FluidContainer}) {
         }
     }, [dataObject]);
 
-    // update the view below
+    return data;
+}
 
-    if (!dataObject) return <div>Loading DataObject </div>;
+export function MouseTracker(props: {container: FluidContainer}) {
+    const data = useMouseTracker(props.container);
 
     const cursors = [];
     for (let key in data) {
-        const item = data[key] as CursorInfo;
+        const item = data[key];
         if (item.active) {
             cursors.push(<CursorIcon {...item} />)
         }
     }
 
-    return (
-        <div>
-            {cursors}
-        </div>);
+    return (<div>{cursors}</div>);
 }
 
 function CursorIcon(props: CursorInfo) {
