@@ -8,6 +8,7 @@ import { MouseTracker } from "./MouseTracker";
 import { ContainerType } from "../types";
 import { TimeClicker } from "./TimeClicker";
 import { FluidContext } from "../utils/FluidContext";
+import { NoteBoard } from "./NoteBoard";
 
 
 interface ContainerLoaderProps {
@@ -42,6 +43,8 @@ export function ContainerLoader(props: ContainerLoaderProps) {
             <MouseTracker />
             : props.type === "time" ?
             <TimeClicker />
+            : props.type === "noteboard" ?
+            <NoteBoard />
             : <div>😢 Error: Unknown container type [{props.type}]</div>
         }
     </FluidContext.Provider>

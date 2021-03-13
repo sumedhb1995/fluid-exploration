@@ -1,1 +1,1 @@
-export type ContainerType = "mouse" | "time";
+export type ContainerType = "mouse" | "time" | "noteboard";

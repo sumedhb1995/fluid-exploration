@@ -1,28 +1,15 @@
-import { Fluid } from "@fluid-experimental/fluid-static";
-import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { TinyliciousService } from "@fluid-experimental/get-container";
-import { ContainerType } from "../types";
-
+import { createContainer } from "../utils/createContainer";
+import { MouseContainerDefinition } from "./MouseTracker";
+import { NoteBoardContainerDefinition } from "./NoteBoard";
+import { TimeClickerContainerDefinition } from "./TimeClicker";
 /**
- * Has a button that creates a new container.
+ * Simple page that has buttons to load different experiences powered by Fluid
  */
 export function Home() {
-    const clickHandler = (type: ContainerType) => {
-        const load = async () => {
-            const service = new TinyliciousService();
-            const id = `${type}_${Date.now()}`;
-            const fluidContainer = await Fluid.createContainer(service, id, [KeyValueDataObject])
-            await fluidContainer.createDataObject(KeyValueDataObject, 'default')
-
-            // After the container is loaded set the hash which will navigate to the new instance
-            window.location.hash = id;
-        }
-
-        load();
-    }
     return (
     <div>
-        <button onClick={() => {clickHandler("mouse")}}>New Mouse Tracker</button>
-        <button onClick={() => {clickHandler("time")}}>New Time Clicker</button>
+        <button onClick={() => {createContainer(MouseContainerDefinition)}}>New Mouse Tracker</button>
+        <button onClick={() => {createContainer(TimeClickerContainerDefinition)}}>New Time Clicker</button>
+        <button onClick={() => {createContainer(NoteBoardContainerDefinition)}}>New NoteBoard</button>
     </div>)
 }

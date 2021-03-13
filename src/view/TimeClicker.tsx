@@ -1,7 +1,13 @@
+import { ContainerDefinition } from "../utils/createContainer";
 import { useKeyValueDataObject } from "../utils/useDataObject";
 
+export const TimeClickerContainerDefinition: ContainerDefinition = {
+    type: "time",
+    initialDataObjectIds: ["time-clicker-data"],
+}
+
 export function TimeClicker() {
-    const [data, setPair] = useKeyValueDataObject("default")
+    const [data, setPair] = useKeyValueDataObject("time-clicker-data")
 
     if (!setPair) return <div>Loading DataObject </div>;
 

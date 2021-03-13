@@ -1,6 +1,12 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { FluidContext } from "../utils/FluidContext";
+import { ContainerDefinition } from "../utils/createContainer";
+
+export const MouseContainerDefinition: ContainerDefinition = {
+    type: "mouse",
+    initialDataObjectIds: ["mouse-track-info"],
+}
 
 interface CursorInfo {
     x: number;
@@ -18,7 +24,7 @@ export function useMouseTracker(): Record<string, CursorInfo> {
 
     React.useEffect(() => {
         const load = async () => {
-            const keyValueDataObject = await container.getDataObject("default");
+            const keyValueDataObject = await container.getDataObject("mouse-track-info");
             setDataObject(keyValueDataObject);
         }
 
@@ -62,7 +68,14 @@ export function useMouseTracker(): Record<string, CursorInfo> {
                 cursorInfo.active = false;
                 dataObject.set(userId, cursorInfo);
             }
-            return () => { dataObject.off("changed", updateData) }
+            return () => { 
+                // TODO: We need to ensure the developer has a way to close the container
+                // It's currently running in the background
+                document.onmousemove = null;
+                document.onmouseenter = null;
+                document.onmouseleave = null;
+                dataObject.off("changed", updateData)
+            }
         }
     }, [dataObject]);
 

@@ -2,10 +2,10 @@ import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import React, { useContext } from "react";
 import { FluidContext } from "./FluidContext";
 
-type KVData = Record<string, any>;
-type SetKVPair = (key: string, value: any) => void;
+type KVData<T=any> = Record<string, T>;
+type SetKVPair<T=any> = (key: string, value: T) => void;
 
-export function useKeyValueDataObject(id: string): [KVData, SetKVPair | undefined] {
+export function useKeyValueDataObject<T = any>(id: string): [KVData<T>, SetKVPair<T> | undefined] {
     const [data, setData] = React.useState<KVData>({});
     const [dataObject, setDataObject] = React.useState<KeyValueDataObject | undefined>();
     const container = useContext(FluidContext);
