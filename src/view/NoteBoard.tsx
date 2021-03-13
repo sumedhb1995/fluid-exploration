@@ -53,7 +53,7 @@ interface NoteProps {
 }
 
 function Note(props: NoteProps) {
-    const [color, setColor] = React.useState("yellow");
+    const [moving, setMoving] = React.useState(false);
     const style: React.CSSProperties = {
         zIndex:0,
         position: "absolute",
@@ -61,27 +61,24 @@ function Note(props: NoteProps) {
         left: props.info.x,
         width: "100px",
         height: "100px",
-        backgroundColor: color,
+        backgroundColor: "yellow",
         border: "1px solid black"
     };
-    const handleMouseDown = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        setColor("blue");
-        const shiftX = event.pageX - props.info.x;
-        const shiftY = event.pageY - props.info.y;
-        document.onmousemove = (event: MouseEvent) =>{
-            props.setPosition(event.pageX - shiftX, event.pageY - shiftY);
+    const handleMouseClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (moving) {
+            document.onmousemove = null;
+        } else {
+            const shiftX = event.pageX - props.info.x;
+            const shiftY = event.pageY - props.info.y;
+            document.onmousemove = (event: MouseEvent) =>{
+                props.setPosition(event.pageX - shiftX, event.pageY - shiftY);
+            }
         }
-        // get element location
-        // set mouse event listener 
-        // align element with mouse as it moves
+
+        setMoving(!moving);
     }
 
-    const handleMouseUp = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        document.onmousemove = null;
-        setColor("yellow");
-    }
-
-    return (<div key={props.id} style={style} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}></div>);
+    return (<div key={props.id} style={style} onClick={handleMouseClick}></div>);
 }
 
 // function getRandomColor() {
