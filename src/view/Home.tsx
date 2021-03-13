@@ -1,15 +1,16 @@
 import { Fluid } from "@fluid-experimental/fluid-static";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { TinyliciousService } from "@fluid-experimental/get-container";
+import { ContainerType } from "../types";
 
 /**
  * Has a button that creates a new container.
  */
 export function Home() {
-    const clickHandler = () => {
+    const clickHandler = (type: ContainerType) => {
         const load = async () => {
             const service = new TinyliciousService();
-            const id = Date.now().toString();
+            const id = `${type}_${Date.now()}`;
             const fluidContainer = await Fluid.createContainer(service, id, [KeyValueDataObject])
             await fluidContainer.createDataObject(KeyValueDataObject, 'default')
 
@@ -21,6 +22,7 @@ export function Home() {
     }
     return (
     <div>
-        <button onClick={clickHandler}>New Container</button>
+        <button onClick={() => {clickHandler("mouse")}}>New Mouse Tracker</button>
+        <button onClick={() => {clickHandler("time")}}>New Time Clicker</button>
     </div>)
 }

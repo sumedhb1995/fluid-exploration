@@ -5,17 +5,20 @@ import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { TinyliciousService } from "@fluid-experimental/get-container";
 
 import { MouseTracker } from "./MouseTracker";
-import { FluidContext } from "../utils/FluidContext";
+import { ContainerType } from "../types";
+import { TimeClicker } from "./TimeClicker";
 
 
 interface ContainerLoaderProps {
     id: string;
+    type: ContainerType;
 }
 
 export function ContainerLoader(props: ContainerLoaderProps) {
+    const [loadingFailed, setLoadingFailed] = React.useState(false);
     const [container, setContainer] = React.useState<FluidContainer>();
+
     React.useEffect(() => {
-        // First time: create/get the Fluid container, then create/get KeyValueDataObject
         const load = async () => {
             const service = new TinyliciousService();
             try {
@@ -28,11 +31,19 @@ export function ContainerLoader(props: ContainerLoaderProps) {
 
         load();
 
-    }, []);
+    }, [props.type, props.id]);
 
     return container ? 
-    <FluidContext.Provider value={container}>
-        <MouseTracker />
-    </FluidContext.Provider>
+    <>    
+        {
+            props.type === "mouse" ? 
+            <MouseTracker container={container}/>
+            : props.type === "time" ?
+            <TimeClicker container={container}/>
+            : <div>Error 😢</div>
+        }
+    </>
+    : loadingFailed
+    ? <div>Fluid Failed to Load. Maybe your server isn't running? Check the Console Log.</div>
     : <div>Loading...</div>
 }

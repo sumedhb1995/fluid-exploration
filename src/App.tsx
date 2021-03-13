@@ -4,44 +4,30 @@ import { ContainerLoader } from './view/ContainerLoader';
 import { Home } from './view/Home';
 
 import './App.css';
-
-const getContainerId = (): string=> {
-    return window.location.hash.substring(1);
-};
+import { ContainerType } from './types';
 
 function App() {
-    const [change, setChange] = React.useState(false);
+    const getExistingInfo = (): {id: string, type: ContainerType} => {
+        const id = window.location.hash.substring(1);
+        const type = id.split("_")[0] as ContainerType;
+        return {id, type};
+    };
+    const [state, setState] = React.useState(getExistingInfo());
     const loadExisting = window.location.hash.length !== 0;
 
     React.useEffect(() =>{
         // set a simple listener that checks if the hash has changed.
+        
+        // This doesn't seem to work?
+        // The hash change doesn't cause a page reload when pasted
         window.onhashchange = ()=> {
-            setChange(!change);
+            setState(getExistingInfo());
         }
     })
 
-    return (
-    loadExisting ?
-    <ContainerLoader id={getContainerId()}/>
-    : <Home />)
+    if (!loadExisting) return <Home />
+
+    return (<ContainerLoader id={state.id} type={state.type} />);
 }
-
-
-
-  
-
-// function timeClicker() {
-//     const [data, setData] = React.useState<{ [key: string]: any }>({});
-//     const [dataObject, setDataObject] = React.useState<KeyValueDataObject>();
-
-//     return (
-//         <div style={{position: "relative", top: "20px"}} className="App">
-//             <button onClick={() => dataObject.set("time", Date.now().toString())}>
-//                 click
-//             </button>
-//             <span>{data["time"]}</span>
-//         </div>
-//     )
-// }
 
 export default App;
