@@ -26,6 +26,7 @@ export function ContainerLoader(props: ContainerLoaderProps) {
                 setContainer(fluidContainer);
             } catch(e) {
                 console.log(e);
+                setLoadingFailed(true);
             }
         }
 
