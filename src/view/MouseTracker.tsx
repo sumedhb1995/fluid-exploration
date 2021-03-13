@@ -29,7 +29,17 @@ export function MouseTracker(props: {container: FluidContainer}) {
             updateData();
             dataObject.on("changed", updateData);
 
+            let lastUpdateTime = 0;
             const updateMouse = (event: MouseEvent) => {
+
+                // We want to avoid spamming the server and the cursor can move faster than the screen can paint.
+                const currentTime = Date.now();
+                if (currentTime - lastUpdateTime < 5) {
+                    lastUpdateTime = currentTime;
+                    return;
+                }
+
+                lastUpdateTime = currentTime;
                 let cursorInfo: CursorInfo = dataObject.get(userId) ?? { x:event.pageX, y:event.pageY, color: getRandomColor(), active: true};
                 cursorInfo.x = event.pageX;
                 cursorInfo.y = event.pageY;

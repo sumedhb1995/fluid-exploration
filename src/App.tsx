@@ -17,9 +17,6 @@ function App() {
 
     React.useEffect(() =>{
         // set a simple listener that checks if the hash has changed.
-        
-        // This doesn't seem to work?
-        // The hash change doesn't cause a page reload when pasted
         window.onhashchange = ()=> {
             setState(getExistingInfo());
         }
