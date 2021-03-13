@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { FluidContainer } from "@fluid-experimental/fluid-static";
+import { FluidContext } from "../utils/FluidContext";
 
 interface CursorInfo {
     x: number;
@@ -11,9 +11,10 @@ interface CursorInfo {
 
 const userId = (Date.now()*Math.random()).toString();
 
-export function useMouseTracker(container: FluidContainer): Record<string, CursorInfo> {
+export function useMouseTracker(): Record<string, CursorInfo> {
     const [data, setData] = React.useState<Record<string,CursorInfo>>({});
     const [dataObject, setDataObject] = React.useState<KeyValueDataObject | undefined>();
+    const container = React.useContext(FluidContext);
 
     React.useEffect(() => {
         const load = async () => {
@@ -68,32 +69,37 @@ export function useMouseTracker(container: FluidContainer): Record<string, Curso
     return data;
 }
 
-export function MouseTracker(props: {container: FluidContainer}) {
-    const data = useMouseTracker(props.container);
+export function MouseTracker() {
+    const data = useMouseTracker();
 
     const cursors = [];
     for (let key in data) {
         const item = data[key];
         if (item.active) {
-            cursors.push(<CursorIcon {...item} />)
+            cursors.push(<CursorIcon info={item} key={key} />)
         }
     }
 
     return (<div>{cursors}</div>);
 }
 
-function CursorIcon(props: CursorInfo) {
+interface CursorIconProps {
+    info: CursorInfo,
+    key: string,
+}
+
+function CursorIcon(props: CursorIconProps) {
     const style: React.CSSProperties = {
         position: "absolute",
-        top: props.y - 10,
-        left: props.x - 10,
+        top: props.info.y - 10,
+        left: props.info.x - 10,
         width: "20px",
         height: "20px",
-        backgroundColor: props.color,
+        backgroundColor: props.info.color,
         borderRadius: "10px",
-        boxShadow: `0 0 5 .5 ${props.color}`,
+        boxShadow: `0 0 5 .5 ${props.info.color}`,
     };
-    return (<div style={style}></div>);
+    return (<div key={props.key} style={style}></div>);
 }
 
 function getRandomColor() {

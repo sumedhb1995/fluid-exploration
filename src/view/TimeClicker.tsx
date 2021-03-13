@@ -1,9 +1,7 @@
-import { FluidContainer } from "@fluid-experimental/fluid-static";
-import { useKeyValueDataObject } from "../utils/useDataObjects";
-// import { FluidContext } from "../utils/FluidContext";
+import { useKeyValueDataObject } from "../utils/useDataObject";
 
-export function TimeClicker(props: { container: FluidContainer }) {
-    const [data, setPair] = useKeyValueDataObject("default", props.container)
+export function TimeClicker() {
+    const [data, setPair] = useKeyValueDataObject("default")
 
     if (!setPair) return <div>Loading DataObject </div>;
 

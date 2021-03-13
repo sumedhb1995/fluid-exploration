@@ -1,13 +1,14 @@
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { FluidContainer } from "@fluid-experimental/fluid-static";
-import React from "react";
+import React, { useContext } from "react";
+import { FluidContext } from "./FluidContext";
 
 type KVData = Record<string, any>;
 type SetKVPair = (key: string, value: any) => void;
 
-export function useKeyValueDataObject(id: string, container: FluidContainer): [KVData, SetKVPair | undefined] {
+export function useKeyValueDataObject(id: string): [KVData, SetKVPair | undefined] {
     const [data, setData] = React.useState<KVData>({});
     const [dataObject, setDataObject] = React.useState<KeyValueDataObject | undefined>();
+    const container = useContext(FluidContext);
 
     React.useEffect(() => {
         const load = async () => {

@@ -7,6 +7,7 @@ import { TinyliciousService } from "@fluid-experimental/get-container";
 import { MouseTracker } from "./MouseTracker";
 import { ContainerType } from "../types";
 import { TimeClicker } from "./TimeClicker";
+import { FluidContext } from "../utils/FluidContext";
 
 
 interface ContainerLoaderProps {
@@ -35,15 +36,15 @@ export function ContainerLoader(props: ContainerLoaderProps) {
     }, [props.type, props.id]);
 
     return container ? 
-    <>    
+    <FluidContext.Provider value={container}>
         {
             props.type === "mouse" ? 
-            <MouseTracker container={container}/>
+            <MouseTracker />
             : props.type === "time" ?
-            <TimeClicker container={container}/>
-            : <div>Error 😢</div>
+            <TimeClicker />
+            : <div>😢 Error: Unknown container type [{props.type}]</div>
         }
-    </>
+    </FluidContext.Provider>
     : loadingFailed
     ? <div>Fluid Failed to Load. Maybe your server isn't running? Check the Console Log.</div>
     : <div>Loading...</div>
