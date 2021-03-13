@@ -1,6 +1,7 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { FluidContainer } from "@fluid-experimental/fluid-static";
+// import { useKeyValueDataObject } from "../utils/useDataObjects";
 
 interface CursorInfo {
     x: number;
@@ -12,6 +13,8 @@ interface CursorInfo {
 const userId = (Date.now()*Math.random()).toString();
 
 export function MouseTracker(props: {container: FluidContainer}) {
+    // const [data, setPair] = useKeyValueDataObject("default", props.container)
+
     const [data, setData] = React.useState<{ [key: string]: CursorInfo }>({});
     const [dataObject, setDataObject] = React.useState<KeyValueDataObject>();
 
