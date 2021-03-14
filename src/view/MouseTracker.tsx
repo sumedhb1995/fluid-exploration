@@ -55,12 +55,15 @@ export function useMouseTracker(): Record<string, CursorInfo> {
                 dataObject.set(userId, cursorInfo);
             }
 
-            document.onmousemove = updateMouse;
-            document.onmouseenter = () => {
-                document.onmousemove = updateMouse;
+            document.addEventListener("mousemove", updateMouse);
+
+            const handleMouseEnter = () => {
+                document.addEventListener("mousemove", updateMouse);
             }
-            document.onmouseleave = () => {
-                document.onmousemove = null;
+            document.addEventListener("mouseenter", handleMouseEnter);
+
+            const handleMouseLeave= () => {
+                document.removeEventListener("mousemove", updateMouse);
 
                 const cursorInfo: CursorInfo = dataObject.get(userId);
                 if (cursorInfo === undefined) return;
@@ -68,12 +71,13 @@ export function useMouseTracker(): Record<string, CursorInfo> {
                 cursorInfo.active = false;
                 dataObject.set(userId, cursorInfo);
             }
+            document.addEventListener("mouseleave", handleMouseLeave);
             return () => { 
                 // TODO: We need to ensure the developer has a way to close the container
                 // It's currently running in the background
-                document.onmousemove = null;
-                document.onmouseenter = null;
-                document.onmouseleave = null;
+                document.removeEventListener("mousemove", updateMouse);
+                document.removeEventListener("mouseenter", handleMouseEnter);
+                document.removeEventListener("mouseleave", handleMouseLeave);
                 dataObject.off("changed", updateData)
             }
         }
@@ -93,7 +97,7 @@ export function MouseTracker() {
         }
     }
 
-    return (<div>{cursors}</div>);
+    return (<>{cursors}</>);
 }
 
 interface CursorIconProps {
@@ -103,6 +107,7 @@ interface CursorIconProps {
 
 function CursorIcon(props: CursorIconProps) {
     const style: React.CSSProperties = {
+        zIndex: 1000,
         position: "absolute",
         top: props.info.y - 10,
         left: props.info.x - 10,
@@ -111,6 +116,7 @@ function CursorIcon(props: CursorIconProps) {
         backgroundColor: props.info.color,
         borderRadius: "10px",
         boxShadow: `0 0 5 .5 ${props.info.color}`,
+        pointerEvents: "none",
     };
     return (<div key={props.key} style={style}></div>);
 }
