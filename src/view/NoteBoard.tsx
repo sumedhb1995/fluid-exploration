@@ -1,3 +1,4 @@
+import { relative } from "node:path";
 import React from "react";
 import { ContainerDefinition } from "../utils/createContainer";
 import { useKeyValueDataObject } from "../utils/useDataObject";
@@ -42,7 +43,7 @@ export function NoteBoard() {
     }
 
     return (
-        <div>
+        <div style={{position: "relative"}}>
             <button onClick={newNote} style={{ zIndex: 1 }} >Create Note</button>
             <button onClick={() => { setMouseTracking(!mouseTracking) }} style={{ zIndex: 1 }} >
                 Mouse Tracking [{mouseTracking ? "Enabled" : "Disabled"}]

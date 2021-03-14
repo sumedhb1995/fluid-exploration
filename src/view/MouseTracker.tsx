@@ -93,7 +93,7 @@ export function MouseTracker() {
     for (let key in data) {
         const item = data[key];
         if (item.active) {
-            cursors.push(<CursorIcon info={item} key={key} />)
+            cursors.push(<CursorIcon info={item} id={key} />)
         }
     }
 
@@ -102,13 +102,13 @@ export function MouseTracker() {
 
 interface CursorIconProps {
     info: CursorInfo,
-    key: string,
+    id: string,
 }
 
 function CursorIcon(props: CursorIconProps) {
     const style: React.CSSProperties = {
         zIndex: 1000,
-        position: "absolute",
+        position: "fixed",
         top: props.info.y - 10,
         left: props.info.x - 10,
         width: "20px",
@@ -118,7 +118,7 @@ function CursorIcon(props: CursorIconProps) {
         boxShadow: `0 0 5 .5 ${props.info.color}`,
         pointerEvents: "none",
     };
-    return (<div key={props.key} style={style}></div>);
+    return (<div key={props.id} style={style}></div>);
 }
 
 function getRandomColor() {
