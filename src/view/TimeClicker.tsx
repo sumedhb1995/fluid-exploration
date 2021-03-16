@@ -1,15 +1,16 @@
+import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { ContainerDefinition } from "../utils/createContainer";
 import { useKeyValueDataObject } from "../utils/useDataObject";
 
 export const TimeClickerContainerDefinition: ContainerDefinition = {
     type: "time",
-    initialDataObjectIds: ["time-clicker-data"],
+    initialDataObjectIds: {"time-clicker-data": KeyValueDataObject},
 }
 
 export function TimeClicker() {
-    const [data, setPair] = useKeyValueDataObject("time-clicker-data")
+    const [data, setPair, loading] = useKeyValueDataObject<number>("time-clicker-data")
 
-    if (!setPair) return <div>Loading DataObject </div>;
+    if (loading) return <div>Loading DataObject </div>;
 
     return (
         <div className="App">

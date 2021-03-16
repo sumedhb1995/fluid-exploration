@@ -1,3 +1,4 @@
+import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import React from "react";
 import { ContainerDefinition } from "../utils/createContainer";
 import { useKeyValueDataObject } from "../utils/useDataObject";
@@ -5,7 +6,11 @@ import { MouseTracker, MouseContainerDefinition } from "./MouseTracker";
 
 export const NoteBoardContainerDefinition: ContainerDefinition = {
     type: "noteboard",
-    initialDataObjectIds: ["note-location-data", "note-content-data", ...MouseContainerDefinition.initialDataObjectIds],
+    initialDataObjectIds: {
+        "note-location-data": KeyValueDataObject,
+        "note-content-data": KeyValueDataObject,
+        ...MouseContainerDefinition.initialDataObjectIds
+    },
 }
 
 export interface NoteInfo {
@@ -14,14 +19,12 @@ export interface NoteInfo {
     text: string;
 }
 
-// const userId = (Date.now()*Math.random()).toString();
-
 export function NoteBoard() {
-    const [locationData, setLocationDataItem] = useKeyValueDataObject<{ x: number, y: number }>("note-location-data");
-    const [contentData, setContentDataItem] = useKeyValueDataObject<string>("note-content-data");
+    const [locationData, setLocationDataItem, locationDataLoading] = useKeyValueDataObject<{ x: number, y: number }>("note-location-data");
+    const [contentData, setContentDataItem, contentDataLoading] = useKeyValueDataObject<string>("note-content-data");
     const [mouseTracking, setMouseTracking] = React.useState(false);
 
-    if (!setLocationDataItem || !setContentDataItem) return <div>Loading...</div>
+    if (locationDataLoading || contentDataLoading) return <div>Loading...</div>
 
     const notes = [];
     for (let key in locationData) {
@@ -87,12 +90,3 @@ function Note(props: NoteProps) {
 
     return (<div key={props.id} style={style} onMouseDown={handleMouseDown}>{props.info.text}</div>);
 }
-
-// function getRandomColor() {
-//     var letters = '0123456789ABCDEF';
-//     var color = '#';
-//     for (var i = 0; i < 6; i++) {
-//         color += letters[Math.floor(Math.random() * 16)];
-//     }
-//     return color;
-// }

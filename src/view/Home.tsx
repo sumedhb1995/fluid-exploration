@@ -1,4 +1,5 @@
 import { createContainer } from "../utils/createContainer";
+import { DiceRollerContainerDefinition } from "./DiceRoller";
 import { MouseContainerDefinition } from "./MouseTracker";
 import { NoteBoardContainerDefinition } from "./NoteBoard";
 import { TimeClickerContainerDefinition } from "./TimeClicker";
@@ -11,5 +12,6 @@ export function Home() {
         <button onClick={() => {createContainer(MouseContainerDefinition)}}>New Mouse Tracker</button>
         <button onClick={() => {createContainer(TimeClickerContainerDefinition)}}>New Time Clicker</button>
         <button onClick={() => {createContainer(NoteBoardContainerDefinition)}}>New NoteBoard</button>
+        <button onClick={() => {createContainer(DiceRollerContainerDefinition)}}>New DiceRoller</button>
     </div>)
 }

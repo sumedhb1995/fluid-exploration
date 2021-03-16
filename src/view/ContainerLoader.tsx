@@ -9,14 +9,9 @@ import { ContainerType } from "../types";
 import { TimeClicker } from "./TimeClicker";
 import { FluidContext } from "../utils/FluidContext";
 import { NoteBoard } from "./NoteBoard";
+import { DiceRollerDataObject } from "../dataObjects/DiceRoller";
 
-
-interface ContainerLoaderProps {
-    id: string;
-    type: ContainerType;
-}
-
-export function ContainerLoader(props: ContainerLoaderProps) {
+function useFluidContainer(id: string): [FluidContainer | undefined, boolean] {
     const [loadingFailed, setLoadingFailed] = React.useState(false);
     const [container, setContainer] = React.useState<FluidContainer>();
 
@@ -24,7 +19,9 @@ export function ContainerLoader(props: ContainerLoaderProps) {
         const load = async () => {
             const service = new TinyliciousService();
             try {
-                const fluidContainer = await Fluid.getContainer(service, props.id, [KeyValueDataObject]);
+                // Every container is only loaded with a KVDO. If we decided to do schemas we can make these more complex
+                // and use the type to key off the container config.
+                const fluidContainer = await Fluid.getContainer(service, id, [KeyValueDataObject, DiceRollerDataObject]);
                 setContainer(fluidContainer);
             } catch(e) {
                 console.log(e);
@@ -33,8 +30,18 @@ export function ContainerLoader(props: ContainerLoaderProps) {
         }
 
         load();
+    }, [id]);
 
-    }, [props.type, props.id]);
+    return [container, loadingFailed]
+}
+
+interface ContainerLoaderProps {
+    id: string;
+    type: ContainerType;
+}
+
+export function ContainerLoader(props: ContainerLoaderProps) {
+    const [container, loadingFailed] = useFluidContainer(props.id);
 
     return container ? 
     <FluidContext.Provider value={container}>

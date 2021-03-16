@@ -2,11 +2,11 @@ import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import React, { useContext } from "react";
 import { FluidContext } from "./FluidContext";
 
-type KVData<T=any> = Record<string, T>;
+type DataMapping<T=any> = Record<string, T>;
 type SetKVPair<T=any> = (key: string, value: T) => void;
 
-export function useKeyValueDataObject<T = any>(id: string): [KVData<T>, SetKVPair<T> | undefined] {
-    const [data, setData] = React.useState<KVData>({});
+export function useKeyValueDataObject<T = any>(id: string): [DataMapping<T>, SetKVPair<T>, boolean] {
+    const [data, setData] = React.useState<DataMapping>({});
     const [dataObject, setDataObject] = React.useState<KeyValueDataObject | undefined>();
     const container = useContext(FluidContext);
 
@@ -27,7 +27,8 @@ export function useKeyValueDataObject<T = any>(id: string): [KVData<T>, SetKVPai
         return () => {dataObject.off("change", updateData)};
     }, [dataObject]);
 
-    // TODO: Is this the right loading case?
-    const setPair = dataObject ? dataObject.set: undefined;
-    return [data, setPair];
+    const setPair = dataObject
+        ? dataObject.set
+        : () => { throw new Error(`Attempting to write to DataObject ${id} that is not yet loaded`)};
+    return [data, setPair, dataObject === undefined];
 }
