@@ -67,7 +67,6 @@ const DiceRollerView: React.FC<IDiceRollerViewProps> = (props: IDiceRollerViewPr
  * The DiceRoller is our implementation of the IDiceRoller interface.
  */
 export class DiceRollerDataObject extends DataObject implements IDiceRoller, IFluidHTMLView {
-    public static get Name() { return "@fluid-example/dice-roller"; }
 
     public get IFluidHTMLView() { return this; }
 
@@ -77,7 +76,8 @@ export class DiceRollerDataObject extends DataObject implements IDiceRoller, IFl
      */
     public static readonly factory = new DataObjectFactory<DiceRollerDataObject, undefined, undefined, IEvent>
         (
-            DiceRollerDataObject.Name,
+            // Note: factory types cannot have "/" or things break
+            "dice-roller",
             DiceRollerDataObject,
             [],
             {},
