@@ -1,14 +1,14 @@
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import React, { useContext } from "react";
+import { DataObject } from "@fluidframework/aqueduct";
+import React from "react";
 import { FluidContext } from "./FluidContext";
 
 type DataMapping<T=any> = Record<string, T>;
 type SetKVPair<T=any> = (key: string, value: T) => void;
 
-export function useKeyValueDataObject<T = any>(id: string): [DataMapping<T>, SetKVPair<T>, boolean] {
-    const [data, setData] = React.useState<DataMapping>({});
-    const [dataObject, setDataObject] = React.useState<KeyValueDataObject | undefined>();
-    const container = useContext(FluidContext);
+export function useDataObject<T extends DataObject>(id: string): T | undefined {
+    const [dataObject, setDataObject] = React.useState<T | undefined>();
+    const container = React.useContext(FluidContext);
 
     React.useEffect(() => {
         const load = async () => {
@@ -18,6 +18,13 @@ export function useKeyValueDataObject<T = any>(id: string): [DataMapping<T>, Set
 
         load();
     }, [id, container]);
+
+    return dataObject;
+}
+
+export function useKeyValueDataObject<T = any>(id: string): [DataMapping<T>, SetKVPair<T>, boolean] {
+    const [data, setData] = React.useState<DataMapping>({});
+    const dataObject = useDataObject<KeyValueDataObject>(id);
 
     React.useEffect(() => {
         if (!dataObject) return;
