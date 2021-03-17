@@ -33,7 +33,11 @@ export function NoteBoard() {
         const setPosition = (x: number, y: number) => {
             setLocationDataItem(key, { x, y });
         }
-        notes.push(<Note info={item} id={key} setPosition={setPosition} />)
+
+        const setText = (text: string) => {
+            setContentDataItem(key, text);
+        }
+        notes.push(<Note info={item} id={key} setPosition={setPosition} setText={setText} />)
     }
 
     const newNote = () => {
@@ -59,17 +63,32 @@ interface NoteProps {
     info: NoteInfo,
     id: string,
     setPosition: (x: number, y: number) => void
+    setText: (text: string) => void
 }
 
 function Note(props: NoteProps) {
-    const style: React.CSSProperties = {
+    const bodyStyle: React.CSSProperties = {
+        position: "relative",
+        margin: "2px",
+        padding: "none",
+        border: "none",
+        borderRadius: "none",
+        outline: "none",
+        resize: "none",
+    };
+    const headerStyle: React.CSSProperties = {
+        position: "relative",
+        borderBottom: "1px solid black",
+        backgroundColor: "gray",
+        height: "15%",
+    };
+    const wrapperStyle: React.CSSProperties = {
         zIndex: 0,
         position: "absolute",
         top: props.info.y,
         left: props.info.x,
-        width: "100px",
-        height: "100px",
-        backgroundColor: "yellow",
+        width: "200px",
+        height: "200px",
         border: "1px solid black"
     };
 
@@ -88,5 +107,15 @@ function Note(props: NoteProps) {
         document.addEventListener("mouseup", removeListenerHandler);
     }
 
-    return (<div key={props.id} style={style} onMouseDown={handleMouseDown}>{props.info.text}</div>);
+    return (
+        <div key={props.id} style={wrapperStyle}>
+            <div style={headerStyle} onMouseDown={handleMouseDown}></div>
+            <textarea
+                rows={10}
+                cols={24}
+                maxLength={240}
+                style={bodyStyle}
+                onChange= {(a) => {props.setText(a.currentTarget.value ?? "a")}}
+                value={props.info.text} />
+        </div>);
 }
