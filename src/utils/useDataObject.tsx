@@ -3,9 +3,9 @@ import { DataObject } from "@fluidframework/aqueduct";
 import React from "react";
 import { FluidContext } from "./FluidContext";
 
-type DataMapping<T=any> = Record<string, T>;
-type SetKVPair<T=any> = (key: string, value: T) => void;
-
+/**
+ * Loads a DataObject of a given type
+ */
 export function useDataObject<T extends DataObject>(id: string): T | undefined {
     const [dataObject, setDataObject] = React.useState<T | undefined>();
     const container = React.useContext(FluidContext);
@@ -22,20 +22,27 @@ export function useDataObject<T extends DataObject>(id: string): T | undefined {
     return dataObject;
 }
 
-export function useKeyValueDataObject<T = any>(id: string): [DataMapping<T>, SetKVPair<T>, boolean] {
-    const [data, setData] = React.useState<DataMapping>({});
+/**
+ * Loads a KeyValueDataObject with a given schema.
+ * Note: There is no way to remove items from the KVPair.
+ * 
+ * @returns - [strongly typed object, function to set a key/value, loading boolean]
+ */
+export function useKeyValueDataObject<T = any>(id: string): [Record<string, T>, (key: string, value: T) => void, boolean] {
+    const [data, setData] = React.useState<Record<string, T>>({});
     const dataObject = useDataObject<KeyValueDataObject>(id);
 
     React.useEffect(() => {
-        if (!dataObject) return;
-        const updateData = () => setData(dataObject.query());
-        updateData();
-        dataObject.on("changed", updateData);
-        return () => {dataObject.off("change", updateData)};
+        if (dataObject) {
+            const updateData = () => setData(dataObject.query());
+            updateData();
+            dataObject.on("changed", updateData);
+            return () => {dataObject.off("change", updateData)};
+        }
     }, [dataObject]);
 
     const setPair = dataObject
         ? dataObject.set
-        : () => { throw new Error(`Attempting to write to DataObject ${id} that is not yet loaded`)};
+        : () => { throw new Error(`Attempting to write to DataObject ${id} that is not yet loaded. Ensure you are waiting on the loading boolean.`)};
     return [data, setPair, dataObject === undefined];
 }

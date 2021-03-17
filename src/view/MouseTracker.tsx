@@ -1,7 +1,7 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { FluidContext } from "../utils/FluidContext";
 import { ContainerDefinition } from "../utils/createContainer";
+import { useKeyValueDataObject } from "../utils/useDataObject";
 
 export const MouseContainerDefinition: ContainerDefinition = {
     type: "mouse",
@@ -15,28 +15,13 @@ interface CursorInfo {
     active: boolean;
 }
 
-const userId = (Date.now()*Math.random()).toString();
+const userId = Math.floor(Date.now()*Math.random()).toString();
 
 export function useMouseTracker(): Record<string, CursorInfo> {
-    const [data, setData] = React.useState<Record<string,CursorInfo>>({});
-    const [dataObject, setDataObject] = React.useState<KeyValueDataObject | undefined>();
-    const container = React.useContext(FluidContext);
+    const [data, setData, loading] = useKeyValueDataObject<CursorInfo>("mouse-track-info");
 
     React.useEffect(() => {
-        const load = async () => {
-            const keyValueDataObject = await container.getDataObject("mouse-track-info");
-            setDataObject(keyValueDataObject);
-        }
-
-        load();
-    }, [container]);
-
-    React.useEffect(() => {
-        if (dataObject) {
-            const updateData = () => setData(dataObject.query());
-            updateData();
-            dataObject.on("changed", updateData);
-
+        if (!loading) {
             let lastUpdateTime = 0;
             const updateMouse = (event: MouseEvent) => {
 
@@ -48,11 +33,11 @@ export function useMouseTracker(): Record<string, CursorInfo> {
                 }
 
                 lastUpdateTime = currentTime;
-                let cursorInfo: CursorInfo = dataObject.get(userId) ?? { x:event.pageX, y:event.pageY, color: getRandomColor(), active: true};
+                let cursorInfo: CursorInfo = data[userId] ?? { x:event.pageX, y:event.pageY, color: getRandomColor(), active: true};
                 cursorInfo.x = event.pageX;
                 cursorInfo.y = event.pageY;
                 cursorInfo.active = true;
-                dataObject.set(userId, cursorInfo);
+                setData(userId, cursorInfo);
             }
 
             document.addEventListener("mousemove", updateMouse);
@@ -65,11 +50,11 @@ export function useMouseTracker(): Record<string, CursorInfo> {
             const handleMouseLeave= () => {
                 document.removeEventListener("mousemove", updateMouse);
 
-                const cursorInfo: CursorInfo = dataObject.get(userId);
+                const cursorInfo: CursorInfo = data[userId];
                 if (cursorInfo === undefined) return;
 
                 cursorInfo.active = false;
-                dataObject.set(userId, cursorInfo);
+                setData(userId, cursorInfo);
             }
             document.addEventListener("mouseleave", handleMouseLeave);
             return () => { 
@@ -78,10 +63,9 @@ export function useMouseTracker(): Record<string, CursorInfo> {
                 document.removeEventListener("mousemove", updateMouse);
                 document.removeEventListener("mouseenter", handleMouseEnter);
                 document.removeEventListener("mouseleave", handleMouseLeave);
-                dataObject.off("changed", updateData)
             }
         }
-    }, [dataObject]);
+    }, [data, setData, loading]);
 
     return data;
 }
