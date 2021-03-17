@@ -23,8 +23,12 @@
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
+  "devDependencies": {
+    "tinylicious": "0.4.17169"
+  },
   "scripts": {
     "start": "react-scripts start",
+    "start:server": "tinylicious",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

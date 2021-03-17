@@ -10,15 +10,13 @@ import {
 } from "@fluidframework/aqueduct";
 import { IEvent } from "@fluidframework/common-definitions";
 import { IValueChanged } from "@fluidframework/map";
-import { IFluidHTMLView } from "@fluidframework/view-interfaces";
-import React from "react";
 
 const diceValueKey = "diceValue";
 
 /**
  * IDiceRoller describes the public API surface for our dice roller Fluid object.
  */
-interface IDiceRoller extends EventEmitter {
+export interface IDiceRoller extends EventEmitter {
     /**
      * Get the dice value as a number.
      */
@@ -35,40 +33,10 @@ interface IDiceRoller extends EventEmitter {
     on(event: "diceRolled", listener: () => void): this;
 }
 
-interface IDiceRollerViewProps {
-    model: IDiceRoller;
-}
-
-const DiceRollerView: React.FC<IDiceRollerViewProps> = (props: IDiceRollerViewProps) => {
-    const [diceValue, setDiceValue] = React.useState(props.model.value);
-
-    React.useEffect(() => {
-        const onDiceRolled = () => {
-            setDiceValue(props.model.value);
-        };
-        props.model.on("diceRolled", onDiceRolled);
-        return () => {
-            props.model.off("diceRolled", onDiceRolled);
-        };
-    }, [props.model]);
-
-    // Unicode 0x2680-0x2685 are the sides of a dice (⚀⚁⚂⚃⚄⚅)
-    const diceChar = String.fromCodePoint(0x267F + diceValue);
-
-    return (
-        <div>
-            <span style={{ fontSize: 50 }}>{diceChar}</span>
-            <button onClick={props.model.roll}>Roll</button>
-        </div>
-    );
-};
-
 /**
  * The DiceRoller is our implementation of the IDiceRoller interface.
  */
-export class DiceRollerDataObject extends DataObject implements IDiceRoller, IFluidHTMLView {
-
-    public get IFluidHTMLView() { return this; }
+export class DiceRollerDataObject extends DataObject implements IDiceRoller {
 
     /**
      * This is required to work with FluidStatic but the interface IFluidStaticDataObjectClass doesn't
@@ -99,20 +67,6 @@ export class DiceRollerDataObject extends DataObject implements IDiceRoller, IFl
                 this.emit("diceRolled");
             }
         });
-    }
-
-    /**
-     * Render the dice.
-     */
-    // public render(div: HTMLElement) {
-    //     ReactDOM.render(
-    //         <DiceRollerView model={this} />,
-    //         div,
-    //     );
-    // }
-
-    public render() {
-        return <DiceRollerView model={this} />
     }
 
     public get value() {

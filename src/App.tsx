@@ -60,15 +60,27 @@ const Header = () => {
         fontSize: "35px",
         cursor: "default",
     }
+    const buttonStyle: React.CSSProperties = {
+        position: "absolute",
+        right:15,
+        top:15,
+        height: "20px",
+    }
 
     const iconClickHandler = () => {
         // navigate home
         window.location.assign('');
     }
 
+    const newWindowClickHandler = () => {
+        // navigate home
+        window.open(window.location.href);
+    }
+
     return (
         <div style={headerStyle}>
             <div style={iconStyle} onClick={iconClickHandler}>🌊</div>
+            <button style={buttonStyle} onClick={newWindowClickHandler}>New Window</button>
         </div>);
 }
 
