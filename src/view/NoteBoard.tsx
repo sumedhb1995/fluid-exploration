@@ -89,7 +89,8 @@ function Note(props: NoteProps) {
         left: props.info.x,
         width: "200px",
         height: "200px",
-        border: "1px solid black"
+        border: "1px solid black",
+        backgroundColor:"white"
     };
 
     const handleMouseDown = (initialEvent: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
