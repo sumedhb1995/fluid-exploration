@@ -26,7 +26,7 @@ export function MultiTimeClicker() {
         const id = Date.now().toString();
         await container.createDataObject(KeyValueDataObject, id);
 
-        // We set the id as a key so we can get the 
+        // We set the id as a key so we can get them later
         setPair(id, "");
     }
 
