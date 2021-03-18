@@ -28,6 +28,5 @@ export function Home() {
         <button onClick={() => {createContainer(NoteBoardContainerDefinition)}}>New Note Board</button>
         <button onClick={() => {createContainer(DiceRollerContainerDefinition)}}>New DiceRoller</button>
         <button onClick={() => {createContainer(MultiTimeClickerContainerDefinition)}}>New Multi Time Clicker</button>
-        <button onClick={() => {createContainer(MultiTimeClickerContainerDefinition)}}>New Multi Time Clicker 2</button>
     </div>)
 }

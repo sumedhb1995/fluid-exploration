@@ -10,7 +10,6 @@ import { NoteBoard } from "./NoteBoard";
 import { DiceRollerDataObject } from "../dataObjects/DiceRoller";
 import { DiceRoller } from "./DiceRoller";
 import { MultiTimeClicker } from "./MultiTimeClicker";
-import { MultiTimeClicker2 } from "./MultiTimeClicker2";
 
 function useFluidContainer(id: string): [FluidContainer | undefined, boolean] {
     const [loadingFailed, setLoadingFailed] = React.useState(false);
@@ -59,8 +58,6 @@ export function ContainerLoader(props: ContainerLoaderProps) {
             <DiceRoller />
             : props.type === "multi-time-clicker" ?
             <MultiTimeClicker />
-            : props.type === "multi-time-clicker-2" ?
-            <MultiTimeClicker2 />
             : <div>😢 Error: Unknown container type [{props.type}]</div>
         }
     </FluidContext.Provider>
