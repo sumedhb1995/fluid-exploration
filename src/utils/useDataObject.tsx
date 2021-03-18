@@ -12,7 +12,7 @@ export function useDataObject<T extends DataObject>(id: string): T | undefined {
 
     React.useEffect(() => {
         const load = async () => {
-            const keyValueDataObject = await container.getDataObject(id);
+            const keyValueDataObject = await container.getDataObject<T>(id);
             setDataObject(keyValueDataObject);
         }
 

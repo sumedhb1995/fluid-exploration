@@ -1,11 +1,9 @@
 import React from "react";
-import { FluidContainer } from "@fluid-experimental/fluid-static";
-import { Fluid } from "@fluid-experimental/fluid-static";
+import Fluid, { FluidContainer } from "@fluid-experimental/fluid-static";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { TinyliciousService } from "@fluid-experimental/get-container";
 
 import { MouseTracker } from "./MouseTracker";
-import { ContainerType } from "../types";
+import { ContainerType } from "../utils/types";
 import { TimeClicker } from "./TimeClicker";
 import { FluidContext } from "../utils/FluidContext";
 import { NoteBoard } from "./NoteBoard";
@@ -19,11 +17,13 @@ function useFluidContainer(id: string): [FluidContainer | undefined, boolean] {
 
     React.useEffect(() => {
         const load = async () => {
-            const service = new TinyliciousService();
             try {
                 // Every container is only loaded with a KVDO. If we decided to do schemas we can make these more complex
                 // and use the type to key off the container config.
-                const fluidContainer = await Fluid.getContainer(service, id, [KeyValueDataObject, DiceRollerDataObject]);
+                const config = {
+                    dataObjects: [KeyValueDataObject, DiceRollerDataObject]
+                }
+                const fluidContainer = await Fluid.getContainer(id, config);
                 setContainer(fluidContainer);
             } catch(e) {
                 console.log(e);

@@ -1,6 +1,6 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { ContainerDefinition } from "../utils/createContainer";
+import { ContainerDefinition } from "../utils/types";
 import { FluidContext } from "../utils/FluidContext";
 import { useKeyValueDataObject } from "../utils/useDataObject";
 
@@ -8,7 +8,12 @@ import { TimeClickerItem } from "./TimeClicker";
 
 export const MultiTimeClickerContainerDefinition: ContainerDefinition = {
     type: "multi-time-clicker",
-    initialDataObjectIds: {"object-ids": KeyValueDataObject},
+    config: {
+        dataObjects: [KeyValueDataObject],
+        initialDataObjects: {
+            "object-ids": KeyValueDataObject,
+        },
+    }
 }
 
 export function MultiTimeClicker() {

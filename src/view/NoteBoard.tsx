@@ -1,16 +1,19 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { ContainerDefinition } from "../utils/createContainer";
+import { ContainerDefinition } from "../utils/types";
 import { useKeyValueDataObject } from "../utils/useDataObject";
 import { MouseTracker, MouseContainerDefinition } from "./MouseTracker";
 
 export const NoteBoardContainerDefinition: ContainerDefinition = {
     type: "noteboard",
-    initialDataObjectIds: {
-        "note-location-data": KeyValueDataObject,
-        "note-content-data": KeyValueDataObject,
-        ...MouseContainerDefinition.initialDataObjectIds
-    },
+    config: {
+        dataObjects: [KeyValueDataObject, ...MouseContainerDefinition.config.dataObjects],
+        initialDataObjects: {
+            "note-location-data": KeyValueDataObject,
+            "note-content-data": KeyValueDataObject,
+            ...MouseContainerDefinition.config.initialDataObjects,
+        },
+    }
 }
 
 export interface NoteInfo {

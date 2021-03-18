@@ -1,10 +1,15 @@
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { ContainerDefinition } from "../utils/createContainer";
+import { ContainerDefinition } from "../utils/types";
 import { useKeyValueDataObject } from "../utils/useDataObject";
 
 export const TimeClickerContainerDefinition: ContainerDefinition = {
     type: "time",
-    initialDataObjectIds: {"time-clicker-data": KeyValueDataObject},
+    config: {
+        dataObjects: [KeyValueDataObject],
+        initialDataObjects: {
+            "time-clicker-data": KeyValueDataObject
+        },
+    }
 }
 
 /**

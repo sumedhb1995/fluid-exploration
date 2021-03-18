@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fluid-experimental/data-objects": "^0.36.0",
-    "@fluid-experimental/fluid-static": "^0.36.0",
-    "@fluid-experimental/get-container": "^0.36.0",
-    "@fluidframework/aqueduct": "^0.36.0",
-    "@fluidframework/common-definitions": "^0.19.0",
-    "@fluidframework/map": "^0.36.0",
-    "@fluidframework/view-interfaces": "^0.36.0",
+    "@fluid-experimental/data-objects": "^0.37.0-19878",
+    "@fluid-experimental/fluid-static": "^0.37.0-19878",
+    "@fluid-experimental/get-container": "^0.37.0-19878",
+    "@fluidframework/aqueduct": "^0.37.0-19878",
+    "@fluidframework/common-definitions": "^0.20.0-19707",
+    "@fluidframework/map": "^0.37.0-19878",
+    "@fluidframework/view-interfaces": "^0.37.0-19878",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -24,7 +24,7 @@
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
-    "tinylicious": "0.4.17169"
+    "tinylicious": "0.4.19713"
   },
   "scripts": {
     "start": "react-scripts start",

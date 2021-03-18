@@ -1,11 +1,16 @@
 import React from "react";
 import { DiceRollerDataObject, IDiceRoller } from "../dataObjects/DiceRoller";
-import { ContainerDefinition } from "../utils/createContainer";
+import { ContainerDefinition } from "../utils/types";
 import { useDataObject } from "../utils/useDataObject";
 
 export const DiceRollerContainerDefinition: ContainerDefinition = {
     type: "dice-roller",
-    initialDataObjectIds: { "dice-roller-key": DiceRollerDataObject },
+    config: {
+        dataObjects: [DiceRollerDataObject],
+        initialDataObjects: {
+            "dice-roller-key": DiceRollerDataObject,
+        },
+    }
 }
 
 /**

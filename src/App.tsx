@@ -1,10 +1,11 @@
 
 import React from 'react';
+
 import { ContainerLoader } from './view/ContainerLoader';
 import { Home } from './view/Home';
 
 import './App.css';
-import { ContainerType } from './types';
+import { ContainerType } from './utils/types';
 
 function App() {
     const getExistingInfo = (): {id: string, type: ContainerType} => {
@@ -44,7 +45,7 @@ const ContentWrapper : React.FunctionComponent = (props) => {
         </div>)
 }
 
-const Header = () => {
+function Header() {
     const headerStyle: React.CSSProperties = {
         left:0,
         top:0,

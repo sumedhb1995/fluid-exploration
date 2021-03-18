@@ -1,11 +1,17 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { ContainerDefinition } from "../utils/createContainer";
+import { ContainerDefinition } from "../utils/types";
 import { useKeyValueDataObject } from "../utils/useDataObject";
 
 export const MouseContainerDefinition: ContainerDefinition = {
     type: "mouse",
-    initialDataObjectIds: {"mouse-track-info": KeyValueDataObject},
+    config: {
+        dataObjects: [KeyValueDataObject],
+        initialDataObjects: {
+            "mouse-track-info": KeyValueDataObject,
+        },
+    }
+    
 }
 
 interface CursorInfo {
