@@ -7,17 +7,27 @@ export const TimeClickerContainerDefinition: ContainerDefinition = {
     initialDataObjectIds: {"time-clicker-data": KeyValueDataObject},
 }
 
+/**
+ * Single Hard Coded Time Clicker
+ */
 export function TimeClicker() {
-    const [data, setPair, loading] = useKeyValueDataObject<number>("time-clicker-data")
+    return (
+        <TimeClickerItem id={"time-clicker-data"} />
+    );
+}
 
-    if (loading) return <div>Loading DataObject </div>;
+/**
+ * Given an id for a DataObject that exists it will generate a TimeClicker
+ */
+export function TimeClickerItem(props: {id: string}) {
+    const [data, setPair, loading] = useKeyValueDataObject<number>(props.id);
+    
+    if (loading) return <div>Loading... </div>;
 
     return (
-        <div className="App">
-            <button onClick={() => setPair("time", Date.now())}>
-                click
-                </button>
-            <span>{data.time}</span>
-        </div>
-    );
+    <div>
+        <button onClick={() => setPair("time", Date.now())}>
+        { data.time ?? "Click Me 😎" }
+            </button>
+    </div>);
 }
