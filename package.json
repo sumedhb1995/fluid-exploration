@@ -10,6 +10,7 @@
     "@fluidframework/common-definitions": "^0.20.0-19707",
     "@fluidframework/map": "^0.37.0-19878",
     "@fluidframework/view-interfaces": "^0.37.0-19878",
+    "@fluidframework/shared-object-base": "^0.37.0-19878",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

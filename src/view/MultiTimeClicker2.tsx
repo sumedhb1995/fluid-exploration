@@ -7,7 +7,7 @@ import { useKeyValueDataObject } from "../utils/useDataObject";
 import { TimeClickerItem } from "./TimeClicker";
 
 export const MultiTimeClickerContainerDefinition: ContainerDefinition = {
-    type: "multi-time-clicker",
+    type: "multi-time-clicker-2",
     config: {
         dataObjects: [KeyValueDataObject],
         initialDataObjects: {
@@ -16,7 +16,7 @@ export const MultiTimeClickerContainerDefinition: ContainerDefinition = {
     }
 }
 
-export function MultiTimeClicker() {
+export function MultiTimeClicker2() {
     const [data, setPair, loading] = useKeyValueDataObject("object-ids");
     const container = React.useContext(FluidContext);
 
