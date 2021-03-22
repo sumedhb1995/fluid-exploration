@@ -3,14 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@fluid-experimental/data-objects": "^0.37.0-19878",
-    "@fluid-experimental/fluid-static": "^0.37.0-19878",
-    "@fluid-experimental/get-container": "^0.37.0-19878",
-    "@fluidframework/aqueduct": "^0.37.0-19878",
+    "@fluid-experimental/data-objects": "^0.37.0-20274",
+    "@fluid-experimental/fluid-static": "^0.37.0-20274",
+    "@fluid-experimental/get-container": "^0.37.0-20274",
+    "@fluid-experimental/task-manager": "^0.37.0-20274",
+    "@fluidframework/aqueduct": "^0.37.0-20274",
     "@fluidframework/common-definitions": "^0.20.0-19707",
-    "@fluidframework/map": "^0.37.0-19878",
-    "@fluidframework/view-interfaces": "^0.37.0-19878",
-    "@fluidframework/shared-object-base": "^0.37.0-19878",
+    "@fluidframework/map": "^0.37.0-20274",
+    "@fluidframework/view-interfaces": "^0.37.0-20274",
+    "@fluidframework/shared-object-base": "^0.37.0-20274",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -24,9 +25,7 @@
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
   },
-  "devDependencies": {
-    "tinylicious": "0.4.19713"
-  },
+  "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "start:server": "tinylicious",
