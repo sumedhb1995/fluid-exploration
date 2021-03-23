@@ -61,8 +61,8 @@ export class DiceRollerRemoteDataObject extends DataObject implements IDiceRolle
      * initialize the state of the DataObject.
      */
     protected async initializingFirstTime() {
-        // const value = await this.sendRequest("GET");
-        this.root.set(diceValueKey, 4);
+        const value = await this.sendRequest("GET");
+        this.root.set(diceValueKey, value);
     }
 
     /**
@@ -82,9 +82,9 @@ export class DiceRollerRemoteDataObject extends DataObject implements IDiceRolle
         });
 
         // check to see if there's a new value if we are loading an old session.
-        // const response = await this.sendRequest("GET");
-        // console.log("value:::" + response);
-        // this.root.set(diceValueKey, response);
+        const response = await this.sendRequest("GET");
+        console.log("value:::" + response);
+        this.root.set(diceValueKey, response);
     }
 
     public get ended(): boolean {
@@ -109,7 +109,7 @@ export class DiceRollerRemoteDataObject extends DataObject implements IDiceRolle
     };
 
     private async sendRequest(type: "GET"|"POST", payload?:number): Promise<number> {
-            // Creating the XMLHttpRequest object
+        // Creating the XMLHttpRequest object
         var request = new XMLHttpRequest();
 
         // Instantiating the request object

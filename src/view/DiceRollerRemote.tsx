@@ -28,6 +28,9 @@ interface IDiceRollerViewProps {
     model: IDiceRollerRemoteDataObject;
 }
 
+/**
+ * To use this you need to have the server running and have CORS disabled for localhost
+ */
 const DiceRollerRemoteView: React.FC<IDiceRollerViewProps> = (props: IDiceRollerViewProps) => {
     const [diceValue, setDiceValue] = React.useState(props.model.value);
 
