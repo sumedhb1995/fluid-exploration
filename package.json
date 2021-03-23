@@ -10,8 +10,9 @@
     "@fluidframework/aqueduct": "^0.37.0-20274",
     "@fluidframework/common-definitions": "^0.20.0-19707",
     "@fluidframework/map": "^0.37.0-20274",
-    "@fluidframework/view-interfaces": "^0.37.0-20274",
     "@fluidframework/shared-object-base": "^0.37.0-20274",
+    "@fluidframework/view-interfaces": "^0.37.0-20274",
+    "@hapi/hapi": "^20.1.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -28,7 +29,7 @@
   "devDependencies": {},
   "scripts": {
     "start": "react-scripts start",
-    "start:server": "tinylicious",
+    "start:server": "node ./server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

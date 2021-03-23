@@ -1,6 +1,12 @@
 import { ContainerCreateConfig } from "@fluid-experimental/fluid-static";
 
-export type ContainerType = "mouse" | "time" | "noteboard" | "dice-roller" | "multi-time-clicker";
+export type ContainerType =
+    "mouse"
+    | "time"
+    | "noteboard"
+    | "dice-roller"
+    | "dice-roller-remote"
+    | "multi-time-clicker";
 
 export interface ContainerDefinition {
     type: ContainerType;

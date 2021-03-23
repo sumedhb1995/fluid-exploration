@@ -39,7 +39,7 @@ export class TaskManagerDataObject extends DataObject<object,undefined,ITaskMana
     }
 
     protected async hasInitialized() {
-        this._tm = await this.root.get<IFluidHandle<TaskManager>>();
+        this._tm = await this.root.get<IFluidHandle<TaskManager>>("tm")?.get();
     }
 
     public lockTask(taskId: string): Promise<void> {

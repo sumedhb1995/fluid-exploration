@@ -1,6 +1,7 @@
 import Fluid from "@fluid-experimental/fluid-static";
 
 import { DiceRollerContainerDefinition } from "./DiceRoller";
+import { DiceRollerRemoteContainerDefinition } from "./DiceRollerRemote";
 import { MultiTimeClickerContainerDefinition } from "./MultiTimeClicker";
 import { MouseContainerDefinition } from "./MouseTracker";
 import { NoteBoardContainerDefinition } from "./NoteBoard";
@@ -27,6 +28,7 @@ export function Home() {
         <button onClick={() => {createContainer(TimeClickerContainerDefinition)}}>New Time Clicker</button>
         <button onClick={() => {createContainer(NoteBoardContainerDefinition)}}>New Note Board</button>
         <button onClick={() => {createContainer(DiceRollerContainerDefinition)}}>New DiceRoller</button>
+        <button onClick={() => {createContainer(DiceRollerRemoteContainerDefinition)}}>New DiceRoller Remote</button>
         <button onClick={() => {createContainer(MultiTimeClickerContainerDefinition)}}>New Multi Time Clicker</button>
     </div>)
 }

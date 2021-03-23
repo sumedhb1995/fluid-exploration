@@ -1,29 +1,29 @@
 import React from "react";
 import Fluid, { FluidContainer } from "@fluid-experimental/fluid-static";
-import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 
 import { MouseTracker } from "./MouseTracker";
 import { ContainerType } from "../utils/types";
 import { TimeClicker } from "./TimeClicker";
 import { FluidContext } from "../utils/FluidContext";
 import { NoteBoard } from "./NoteBoard";
-import { DiceRollerDataObject } from "../dataObjects/DiceRoller";
 import { DiceRoller } from "./DiceRoller";
+import { DiceRollerRemote } from "./DiceRollerRemote";
 import { MultiTimeClicker } from "./MultiTimeClicker";
+import { ContainerMapping } from "../utils/ContainerMapping";
 
-function useFluidContainer(id: string): [FluidContainer | undefined, boolean] {
+function useFluidContainer(props: ContainerLoaderProps): [FluidContainer | undefined, boolean] {
     const [loadingFailed, setLoadingFailed] = React.useState(false);
     const [container, setContainer] = React.useState<FluidContainer>();
 
     React.useEffect(() => {
         const load = async () => {
             try {
-                // Every container is only loaded with a KVDO. If we decided to do schemas we can make these more complex
-                // and use the type to key off the container config.
-                const config = {
-                    dataObjects: [KeyValueDataObject, DiceRollerDataObject]
+                // Use the mapping to 
+                const containerConfig = ContainerMapping[props.type];
+                if (containerConfig === undefined) {
+                    throw new Error(`Container type ${[props.type]} is not defined in the ContainerMapping`);
                 }
-                const fluidContainer = await Fluid.getContainer(id, config);
+                const fluidContainer = await Fluid.getContainer(props.id, ContainerMapping[props.type].config);
                 setContainer(fluidContainer);
             } catch(e) {
                 console.log(e);
@@ -32,7 +32,7 @@ function useFluidContainer(id: string): [FluidContainer | undefined, boolean] {
         }
 
         load();
-    }, [id]);
+    }, [props]);
 
     return [container, loadingFailed]
 }
@@ -43,7 +43,7 @@ interface ContainerLoaderProps {
 }
 
 export function ContainerLoader(props: ContainerLoaderProps) {
-    const [container, loadingFailed] = useFluidContainer(props.id);
+    const [container, loadingFailed] = useFluidContainer(props);
 
     return container ? 
     <FluidContext.Provider value={container}>
@@ -56,6 +56,8 @@ export function ContainerLoader(props: ContainerLoaderProps) {
             <NoteBoard />
             : props.type === "dice-roller" ?
             <DiceRoller />
+            : props.type === "dice-roller-remote" ?
+            <DiceRollerRemote />
             : props.type === "multi-time-clicker" ?
             <MultiTimeClicker />
             : <div>😢 Error: Unknown container type [{props.type}]</div>
