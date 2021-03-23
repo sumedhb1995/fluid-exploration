@@ -8,7 +8,6 @@ import {
     DataObject,
     DataObjectFactory,
 } from "@fluidframework/aqueduct";
-import { IEvent } from "@fluidframework/common-definitions";
 import { IValueChanged } from "@fluidframework/map";
 
 const diceValueKey = "diceValue";
@@ -42,7 +41,7 @@ export class DiceRollerDataObject extends DataObject implements IDiceRoller {
      * This is required to work with FluidStatic but the interface IFluidStaticDataObjectClass doesn't
      * understand this as valid. This is because the interface doesn't apply to static objects. We should think about this.
      */
-    public static readonly factory = new DataObjectFactory<DiceRollerDataObject, undefined, undefined, IEvent>
+    public static readonly factory = new DataObjectFactory
         (
             // Note: factory types cannot have "/" or things break
             "dice-roller",

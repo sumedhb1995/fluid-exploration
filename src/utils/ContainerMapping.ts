@@ -1,3 +1,4 @@
+import { CollectionExampleContainerDefinition } from "../view/CollectionExample";
 import { DiceRollerContainerDefinition } from "../view/DiceRoller";
 import { DiceRollerRemoteContainerDefinition } from "../view/DiceRollerRemote";
 import { MouseContainerDefinition } from "../view/MouseTracker";
@@ -12,4 +13,5 @@ export const ContainerMapping = {
     [MultiTimeClickerContainerDefinition.type]: MultiTimeClickerContainerDefinition,
     [NoteBoardContainerDefinition.type]: NoteBoardContainerDefinition,
     [TimeClickerContainerDefinition.type]: TimeClickerContainerDefinition,
+    [CollectionExampleContainerDefinition.type]: CollectionExampleContainerDefinition,
 }

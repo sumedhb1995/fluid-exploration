@@ -8,6 +8,7 @@
     "@fluid-experimental/get-container": "^0.37.0-20274",
     "@fluid-experimental/task-manager": "^0.37.0-20274",
     "@fluidframework/aqueduct": "^0.37.0-20274",
+    "@fluidframework/core-interfaces": "^0.37.0-20274",
     "@fluidframework/common-definitions": "^0.20.0-19707",
     "@fluidframework/map": "^0.37.0-20274",
     "@fluidframework/shared-object-base": "^0.37.0-20274",

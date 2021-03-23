@@ -7,6 +7,7 @@ import { MouseContainerDefinition } from "./MouseTracker";
 import { NoteBoardContainerDefinition } from "./NoteBoard";
 import { TimeClickerContainerDefinition } from "./TimeClicker";
 import { ContainerDefinition } from "../utils/types";
+import { CollectionExampleContainerDefinition } from "./CollectionExample";
 
 /**
  * Simple page that has buttons to load different experiences powered by Fluid
@@ -30,5 +31,6 @@ export function Home() {
         <button onClick={() => {createContainer(DiceRollerContainerDefinition)}}>New DiceRoller</button>
         <button onClick={() => {createContainer(DiceRollerRemoteContainerDefinition)}}>New DiceRoller Remote</button>
         <button onClick={() => {createContainer(MultiTimeClickerContainerDefinition)}}>New Multi Time Clicker</button>
+        <button onClick={() => {createContainer(CollectionExampleContainerDefinition)}}>New Collection Example</button>
     </div>)
 }
