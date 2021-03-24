@@ -11,7 +11,7 @@ import {
 } from "@fluidframework/aqueduct";
 import { IContainerRuntime } from "@fluidframework/container-runtime-definitions";
 import { IFluidHandle, IFluidLoadable } from "@fluidframework/core-interfaces";
-import { IChannel, IChannelFactory, IFluidDataStoreRuntime } from "@fluidframework/datastore-definitions";
+import { IChannelFactory } from "@fluidframework/datastore-definitions";
 import { SharedMap } from "@fluidframework/map";
 import { IFluidDataStoreFactory, NamedFluidDataStoreRegistryEntry } from "@fluidframework/runtime-definitions";
 import { requestFluidObject } from "@fluidframework/runtime-utils";
@@ -70,7 +70,7 @@ export class RootDataObject extends DataObject {
             return this.createDataObject<T>(type,id);
         } else if (isIChannelFactoryCreator(type)) {
             // Create a SharedObject if that's the factory type
-            return this.createSharedObject(SharedMap, id) as T;
+            return this.createSharedObject(type, id) as T;
         }
 
         throw new Error("Could not create new FluidObject because it is not of a know type");

@@ -14,7 +14,7 @@ export const TextAreaContainerDefinition: ContainerDefinition = {
 }
 
 /**
- * Single Hard Coded Time Clicker
+ * Single Hard Coded Text Area
  */
  export function TextArea() {
     const sharedString = useFluidObject<SharedString>("text-area");
