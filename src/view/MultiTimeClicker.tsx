@@ -2,7 +2,7 @@ import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { ContainerDefinition } from "../utils/types";
 import { FluidContext } from "../utils/FluidContext";
-import { useKeyValueDataObject } from "../utils/useDataObject";
+import { useKeyValuePair } from "../utils/useDataObject";
 
 import { TimeClickerItem } from "./TimeClicker";
 
@@ -17,7 +17,7 @@ export const MultiTimeClickerContainerDefinition: ContainerDefinition = {
 }
 
 export function MultiTimeClicker() {
-    const [data, setPair, loading] = useKeyValueDataObject("object-ids");
+    const [data, setPair, loading] = useKeyValuePair("object-ids");
     const container = React.useContext(FluidContext);
 
     if (loading) return <div>Loading... </div>;

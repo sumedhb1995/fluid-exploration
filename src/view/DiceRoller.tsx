@@ -1,7 +1,7 @@
 import React from "react";
 import { DiceRollerDataObject, IDiceRoller } from "../dataObjects/DiceRoller";
 import { ContainerDefinition } from "../utils/types";
-import { useDataObject } from "../utils/useDataObject";
+import { useFluidObject } from "../utils/useDataObject";
 
 export const DiceRollerContainerDefinition: ContainerDefinition = {
     type: "dice-roller",
@@ -17,8 +17,7 @@ export const DiceRollerContainerDefinition: ContainerDefinition = {
  * This is very future thinking. It demonstrates how DataObjects can contain a view.
  */
 export function DiceRoller() {
-    const dataObject = useDataObject<DiceRollerDataObject>("dice-roller-key");
-
+    const dataObject = useFluidObject<DiceRollerDataObject>("dice-roller-key");
     return dataObject
         ? <DiceRollerView model={dataObject} />
         : <div>Loading DiceRoller... </div>;

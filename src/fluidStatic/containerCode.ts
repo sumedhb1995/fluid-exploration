@@ -20,14 +20,18 @@ import { v4 as uuid } from "uuid";
 
 import { isIChannelFactoryCreator, isIFluidStaticDataObjectClass } from "./utils";
 
-export type IdToDataObjectCollection = Record<string, IFluidStaticDataObjectClass>;
+export type IdToDataObjectCollection = Record<string, FluidDataType>;
 
-export type FluidDataType = IFluidStaticDataObjectClass | IChannelFactory;
+export type FluidDataType = IFluidStaticDataObjectClass | IFluidStaticSharedObjectClass;
 
 export type FluidObject = DataObject | SharedObject;
 
 export interface IFluidStaticDataObjectClass {
     readonly factory: IFluidDataStoreFactory;
+}
+
+export interface IFluidStaticSharedObjectClass {
+    readonly getFactory: () => IChannelFactory;
 }
 
 export class RootDataObject extends DataObject {

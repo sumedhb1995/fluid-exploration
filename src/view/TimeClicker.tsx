@@ -1,11 +1,12 @@
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
+import { SharedMap } from "@fluidframework/map";
 import { ContainerDefinition } from "../utils/types";
-import { useKeyValueDataObject } from "../utils/useDataObject";
+import { useKeyValuePair } from "../utils/useDataObject";
 
 export const TimeClickerContainerDefinition: ContainerDefinition = {
     type: "time",
     config: {
-        dataObjects: [KeyValueDataObject],
+        dataObjects: [KeyValueDataObject, SharedMap],
         initialDataObjects: {
             "time-clicker-data": KeyValueDataObject
         },
@@ -17,7 +18,10 @@ export const TimeClickerContainerDefinition: ContainerDefinition = {
  */
 export function TimeClicker() {
     return (
-        <TimeClickerItem id={"time-clicker-data"} />
+        <>
+            <TimeClickerItem id={"time-clicker-data"} />
+            {/* <TimeClickerItem id={"time-clicker-map"} /> */}
+        </>
     );
 }
 
@@ -25,7 +29,7 @@ export function TimeClicker() {
  * Given an id for a DataObject that exists it will generate a TimeClicker
  */
 export function TimeClickerItem(props: {id: string}) {
-    const [data, setPair, loading] = useKeyValueDataObject<number>(props.id);
+    const [data, setPair, loading] = useKeyValuePair<number>(props.id);
     
     if (loading) return <div>Loading... </div>;
 

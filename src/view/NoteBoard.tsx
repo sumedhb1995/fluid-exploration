@@ -1,7 +1,7 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { ContainerDefinition } from "../utils/types";
-import { useKeyValueDataObject } from "../utils/useDataObject";
+import { useKeyValuePair } from "../utils/useDataObject";
 import { MouseTracker, MouseContainerDefinition } from "./MouseTracker";
 
 export const NoteBoardContainerDefinition: ContainerDefinition = {
@@ -23,8 +23,8 @@ export interface NoteInfo {
 }
 
 export function NoteBoard() {
-    const [locationData, setLocationDataItem, locationDataLoading] = useKeyValueDataObject<{ x: number, y: number }>("note-location-data");
-    const [contentData, setContentDataItem, contentDataLoading] = useKeyValueDataObject<string>("note-content-data");
+    const [locationData, setLocationDataItem, locationDataLoading] = useKeyValuePair<{ x: number, y: number }>("note-location-data");
+    const [contentData, setContentDataItem, contentDataLoading] = useKeyValuePair<string>("note-content-data");
     const [mouseTracking, setMouseTracking] = React.useState(false);
 
     if (locationDataLoading || contentDataLoading) return <div>Loading...</div>

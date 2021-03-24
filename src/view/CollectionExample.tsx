@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SharedMapCollection } from "../dataObjects/SharedMapCollection";
 import { ContainerDefinition } from "../utils/types";
-import { useDataObject } from "../utils/useDataObject";
+import { useFluidObject } from "../utils/useDataObject";
 
 
 export const CollectionExampleContainerDefinition: ContainerDefinition = {
@@ -18,7 +18,7 @@ export const CollectionExampleContainerDefinition: ContainerDefinition = {
  * Loads a DataObject of a given type
  */
  export function useSharedMapCollection(id: string): SharedMapCollection | undefined {
-    const collection = useDataObject<SharedMapCollection>(id);
+    const collection = useFluidObject<SharedMapCollection>(id);
     const [, newUpdate] = useState<object>();
 
     React.useEffect(() => {

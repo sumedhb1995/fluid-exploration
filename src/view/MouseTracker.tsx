@@ -1,7 +1,7 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { ContainerDefinition } from "../utils/types";
-import { useKeyValueDataObject } from "../utils/useDataObject";
+import { useKeyValuePair } from "../utils/useDataObject";
 
 export const MouseContainerDefinition: ContainerDefinition = {
     type: "mouse",
@@ -24,7 +24,7 @@ interface CursorInfo {
 const userId = Math.floor(Date.now()*Math.random()).toString();
 
 export function useMouseTracker(): Record<string, CursorInfo> {
-    const [data, setData, loading] = useKeyValueDataObject<CursorInfo>("mouse-track-info");
+    const [data, setData, loading] = useKeyValuePair<CursorInfo>("mouse-track-info");
 
     React.useEffect(() => {
         if (!loading) {
