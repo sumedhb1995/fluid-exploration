@@ -38,7 +38,7 @@ export function useKeyValuePair<T = any>(id: string): [Record<string, T>, (key: 
             const updateData = () => setData(kvPair.query());
             updateData();
             kvPair.on("changed", updateData);
-            return () => {kvPair.off("change", updateData)};
+            return () => {kvPair.off("changed", updateData)};
         }
     }, [kvPair]);
 
@@ -62,13 +62,17 @@ export function useSharedMap<T = any>(id: string): [Record<string, T>, (key: str
         if (map) {
             const updateData = () => setData(Object.fromEntries(map.entries()));
             updateData();
-            map.on("changed", updateData);
-            return () => {map.off("change", updateData)};
+            map.on("valueChanged", updateData);
+            return () => {map.off("valueChanged", updateData)};
         }
     }, [map]);
 
+    const setMap = (key: string, value: any) => {
+        return map!.set(key, value);
+    }
+
     const setPair = map
-        ? map.set
+        ? setMap
         : () => { throw new Error(`Attempting to write to DataObject ${id} that is not yet loaded. Ensure you are waiting on the loading boolean.`)};
     return [data, setPair, map === undefined];
 }

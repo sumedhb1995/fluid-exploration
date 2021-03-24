@@ -12,6 +12,7 @@ import {
 import { IContainerRuntime } from "@fluidframework/container-runtime-definitions";
 import { IFluidHandle, IFluidLoadable } from "@fluidframework/core-interfaces";
 import { IChannelFactory } from "@fluidframework/datastore-definitions";
+import { SharedMap } from "@fluidframework/map";
 import { IFluidDataStoreFactory, NamedFluidDataStoreRegistryEntry } from "@fluidframework/runtime-definitions";
 import { requestFluidObject } from "@fluidframework/runtime-utils";
 import { SharedObject } from "@fluidframework/shared-object-base";
@@ -56,6 +57,8 @@ export class RootDataObject extends DataObject {
     protected async initializingFirstTime() {
         this.root.createSubDirectory(this.dataObjectDirKey);
         this.root.createSubDirectory(this.sharedObjectDirKey);
+        const map = SharedMap.create(this.runtime, uuid());
+        this.root.set("foo", map.handle);
     }
 
     protected async hasInitialized() { }
@@ -105,9 +108,10 @@ export class RootDataObject extends DataObject {
         id: string,
     ): T {
         // uuid is a throw away but currently enforced on the API
-        const obj = factory.create(this.runtime, uuid()) as T;
+        // const obj1 = factory.create(this.runtime, uuid()) as T;
+        const obj = SharedMap.create(this.runtime, uuid());
         this.sharedObjectDir.set(id, obj.handle);
-        return obj;
+        return obj as unknown as T;
     }
 
     private async getSharedObject<T extends IFluidLoadable>(id: string) {

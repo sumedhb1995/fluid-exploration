@@ -4,7 +4,7 @@ import { ContainerDefinition } from "../utils/types";
 import { FluidContext } from "../utils/FluidContext";
 import { useKeyValuePair } from "../utils/useDataObject";
 
-import { TimeClickerItem } from "./TimeClicker";
+import { TimeClickerItemKV } from "./TimeClicker";
 
 export const MultiTimeClickerContainerDefinition: ContainerDefinition = {
     type: "multi-time-clicker",
@@ -33,7 +33,7 @@ export function MultiTimeClicker() {
     const items = [];
 
     for (let key in data) {
-        items.push(<TimeClickerItem id={key} /> )
+        items.push(<TimeClickerItemKV id={key} /> )
     }
 
     return (
