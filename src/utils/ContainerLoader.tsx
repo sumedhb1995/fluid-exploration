@@ -1,17 +1,17 @@
 import React from "react";
 import Fluid, { FluidContainer } from "../fluidStatic";
 
-import { MouseTracker } from "./MouseTracker";
-import { ContainerType } from "../utils/types";
-import { TimeClicker } from "./TimeClicker";
-import { FluidContext } from "../utils/FluidContext";
-import { NoteBoard } from "./NoteBoard";
-import { DiceRoller } from "./DiceRoller";
-import { DiceRollerRemote } from "./DiceRollerRemote";
-import { MultiTimeClicker } from "./MultiTimeClicker";
-import { ContainerMapping } from "../utils/ContainerMapping";
-import { CollectionExample } from "./CollectionExample";
-import { TextArea } from "./TextArea";
+import { MouseTracker } from "../view/MouseTracker";
+import { ContainerType } from "./types";
+import { TimeClicker } from "../view/TimeClicker";
+import { FluidContext } from "./FluidContext";
+import { NoteBoard } from "../view/NoteBoard";
+import { DiceRoller } from "../view/DiceRoller";
+import { DiceRollerRemote } from "../view/DiceRollerRemote";
+import { MultiTimeClicker } from "../view/MultiTimeClicker";
+import { ContainerMapping } from "./ContainerMapping";
+import { CollectionExample } from "../view/CollectionExample";
+import { TextArea } from "../view/TextArea";
 
 function useFluidContainer(props: ContainerLoaderProps): [FluidContainer | undefined, boolean] {
     const [loadingFailed, setLoadingFailed] = React.useState(false);

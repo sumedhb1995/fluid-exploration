@@ -1,7 +1,7 @@
 
 import React from 'react';
 
-import { ContainerLoader } from './view/ContainerLoader';
+import { ContainerLoader } from './utils/ContainerLoader';
 import { Home } from './view/Home';
 
 import './App.css';
