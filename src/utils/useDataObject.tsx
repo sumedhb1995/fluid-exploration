@@ -67,12 +67,10 @@ export function useSharedMap<T = any>(id: string): [Record<string, T>, (key: str
         }
     }, [map]);
 
-    const setMap = (key: string, value: any) => {
-        return map!.set(key, value);
-    }
+    
 
     const setPair = map
-        ? setMap
+        ? (k:string, v:any) => map.set(k,v)
         : () => { throw new Error(`Attempting to write to DataObject ${id} that is not yet loaded. Ensure you are waiting on the loading boolean.`)};
     return [data, setPair, map === undefined];
 }
