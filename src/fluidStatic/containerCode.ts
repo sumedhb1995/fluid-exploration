@@ -58,8 +58,6 @@ export class RootDataObject extends DataObject {
     protected async initializingFirstTime() {
         this.root.createSubDirectory(this.dataObjectDirKey);
         this.root.createSubDirectory(this.sharedObjectDirKey);
-        const map = SharedMap.create(this.runtime, uuid());
-        this.root.set("foo", map.handle);
     }
 
     protected async hasInitialized() { }
