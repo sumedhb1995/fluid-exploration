@@ -9,14 +9,14 @@ import { NoteBoardContainerDefinition } from "./NoteBoard";
 import { TextAreaContainerDefinition } from "./TextArea";
 import { TimeClickerContainerDefinition } from "./TimeClicker";
 import { ContainerMapping, ContainerType } from "../utils/ContainerMapping";
-import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerConfig } from "../fluidStatic";
 
 /**
  * Simple page that has buttons to load different experiences powered by Fluid
  */
 export function Home() {
     // createContainer navigates after the async function completes
-    const createContainer = async (config: ContainerCreateConfig<ContainerType>) => {
+    const createContainer = async (config: ContainerConfig<ContainerType>) => {
         const id = `${config.name}_${Date.now()}`;
         const configInMap = ContainerMapping[config.name];
         if (config.name !== configInMap.name) {

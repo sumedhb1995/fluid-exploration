@@ -1,10 +1,10 @@
 import React from "react";
 import { DiceRollerDataObject, IDiceRoller } from "../dataObjects/DiceRoller";
-import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerConfig } from "../fluidStatic";
 import { ContainerType } from "../utils/ContainerMapping";
 import { useFluidObject } from "../utils/useDataObject";
 
-export const DiceRollerContainerDefinition: ContainerCreateConfig<ContainerType> = {
+export const DiceRollerContainerDefinition: ContainerConfig<ContainerType> = {
     name: "dice-roller",
     dataTypes: [DiceRollerDataObject],
     initialObjects: {

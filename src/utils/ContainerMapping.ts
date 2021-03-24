@@ -1,4 +1,4 @@
-import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerConfig } from "../fluidStatic";
 import { CollectionExampleContainerDefinition } from "../view/CollectionExample";
 import { DiceRollerContainerDefinition } from "../view/DiceRoller";
 import { DiceRollerRemoteContainerDefinition } from "../view/DiceRollerRemote";
@@ -18,7 +18,7 @@ export type ContainerType =
     | "collection-example"
     | "text-area";
 
-export const ContainerMapping: Record<string, ContainerCreateConfig> = {
+export const ContainerMapping: Record<string, ContainerConfig> = {
     [DiceRollerContainerDefinition.name]: DiceRollerContainerDefinition,
     [DiceRollerRemoteContainerDefinition.name]: DiceRollerRemoteContainerDefinition,
     [MouseContainerDefinition.name]: MouseContainerDefinition,

@@ -1,10 +1,10 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { useKeyValuePair } from "../utils/useDataObject";
-import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerConfig } from "../fluidStatic";
 import { ContainerType } from "../utils/ContainerMapping";
 
-export const MouseContainerDefinition: ContainerCreateConfig<ContainerType> = {
+export const MouseContainerDefinition: ContainerConfig<ContainerType> = {
     name: "mouse",
     dataTypes: [KeyValueDataObject],
     initialObjects: {

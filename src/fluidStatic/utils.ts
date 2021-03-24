@@ -1,12 +1,9 @@
-import {
-    IFluidStaticDataObjectClass,
-    IFluidStaticSharedObjectClass,
- } from "./containerCode";
+import { DataObjectClass, SharedObjectClass } from "./types";
 
-export function isIFluidStaticDataObjectClass(obj: any): obj is IFluidStaticDataObjectClass {
+export function isDataObjectClass(obj: any): obj is DataObjectClass {
     return obj?.factory !== undefined;
 }
 
-export function isIChannelFactoryCreator(obj: any): obj is IFluidStaticSharedObjectClass {
+export function isSharedObjectClass(obj: any): obj is SharedObjectClass {
     return obj?.getFactory !== undefined;
 }

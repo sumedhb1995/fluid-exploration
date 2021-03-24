@@ -2,10 +2,10 @@ import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { useKeyValuePair } from "../utils/useDataObject";
 import { MouseTracker, MouseContainerDefinition } from "./MouseTracker";
-import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerConfig } from "../fluidStatic";
 import { ContainerType } from "../utils/ContainerMapping";
 
-export const NoteBoardContainerDefinition: ContainerCreateConfig<ContainerType> = {
+export const NoteBoardContainerDefinition: ContainerConfig<ContainerType> = {
     name: "noteboard",
     dataTypes: [KeyValueDataObject],
     initialObjects: {

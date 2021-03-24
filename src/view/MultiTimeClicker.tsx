@@ -4,10 +4,10 @@ import { FluidContext } from "../utils/FluidContext";
 import { useKeyValuePair } from "../utils/useDataObject";
 
 import { TimeClickerItemKV } from "./TimeClicker";
-import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerConfig } from "../fluidStatic";
 import { ContainerType } from "../utils/ContainerMapping";
 
-export const MultiTimeClickerContainerDefinition: ContainerCreateConfig<ContainerType> = {
+export const MultiTimeClickerContainerDefinition: ContainerConfig<ContainerType> = {
     name: "multi-time-clicker",
     dataTypes: [KeyValueDataObject],
     initialObjects: {

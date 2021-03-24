@@ -1,10 +1,10 @@
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { SharedMap } from "@fluidframework/map";
-import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerConfig } from "../fluidStatic";
 import { ContainerType } from "../utils/ContainerMapping";
 import { useKeyValuePair, useSharedMap } from "../utils/useDataObject";
 
-export const TimeClickerContainerDefinition: ContainerCreateConfig<ContainerType> = {
+export const TimeClickerContainerDefinition: ContainerConfig<ContainerType> = {
     name: "time",
     dataTypes: [KeyValueDataObject, SharedMap],
     initialObjects: {
@@ -35,6 +35,7 @@ export function TimeClickerItemKV(props: {id: string}) {
 
     return (
     <div className="App">
+        KVPair-
         <button onClick={() => setPair("time", Date.now())}>
         { data.time ?? "Click Me 😎" }
             </button>
@@ -50,6 +51,7 @@ export function TimeClickerItemKV(props: {id: string}) {
 
     return (
     <div className="App">
+        SharedMap-
         <button onClick={() => setPair("time", Date.now())}>
         { data.time ?? "Click Me 😎" }
             </button>

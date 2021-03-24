@@ -12,29 +12,18 @@ import {
 import { IContainerRuntime } from "@fluidframework/container-runtime-definitions";
 import { IFluidHandle, IFluidLoadable } from "@fluidframework/core-interfaces";
 import { IChannelFactory } from "@fluidframework/datastore-definitions";
-import { SharedMap } from "@fluidframework/map";
-import { IFluidDataStoreFactory, NamedFluidDataStoreRegistryEntry } from "@fluidframework/runtime-definitions";
+import { NamedFluidDataStoreRegistryEntry } from "@fluidframework/runtime-definitions";
 import { requestFluidObject } from "@fluidframework/runtime-utils";
 import { ISharedObject } from "@fluidframework/shared-object-base";
+import {
+    DataObjectClass,
+    FluidObject,
+    FluidObjectClass,
+    FluidObjectCollection,
+    SharedObjectClass,
+} from "./types";
 
-import { v4 as uuid } from "uuid";
-
-import { isIChannelFactoryCreator, isIFluidStaticDataObjectClass } from "./utils";
-
-export type IdToDataObjectCollection = Record<string, FluidDataType>;
-
-export type FluidDataType = IFluidStaticDataObjectClass | IFluidStaticSharedObjectClass;
-
-// export type FluidObject = DataObject | SharedObject;
-export type FluidObject = IFluidLoadable | ISharedObject;
-
-export interface IFluidStaticDataObjectClass {
-    readonly factory: IFluidDataStoreFactory;
-}
-
-export interface IFluidStaticSharedObjectClass {
-    readonly getFactory: () => IChannelFactory;
-}
+import { isSharedObjectClass, isDataObjectClass } from "./utils";
 
 export class RootDataObject extends DataObject {
     private dataObjectDirKey = "data-objects";
@@ -62,16 +51,14 @@ export class RootDataObject extends DataObject {
 
     protected async hasInitialized() { }
 
-    public async create<T extends FluidObject>(type: FluidDataType, id: string): Promise<T> {
-        if (isIFluidStaticDataObjectClass(type)) {
-            // Create a DataObject
-            return this.createDataObject<T>(type,id);
-        } else if (isIChannelFactoryCreator(type)) {
-            // Create a SharedObject if that's the factory type
-            return this.createSharedObject(type, id) as T;
+    public async create<T extends FluidObject>(objectClass: FluidObjectClass, id: string): Promise<T> {
+        if (isDataObjectClass(objectClass)) {
+            return this.createDataObject<T>(objectClass,id);
+        } else if (isSharedObjectClass(objectClass)) {
+            return this.createSharedObject(objectClass, id) as T;
         }
 
-        throw new Error("Could not create new FluidObject because it is not of a know type");
+        throw new Error("Could not create new FluidObject because an unknown object was passed");
     }
 
     public async get<T extends FluidObject>(id: string): Promise<T> {
@@ -86,7 +73,7 @@ export class RootDataObject extends DataObject {
     }
 
     private async createDataObject<T extends IFluidLoadable>(
-        dataObjectClass: IFluidStaticDataObjectClass,
+        dataObjectClass: DataObjectClass,
         id: string,
     ): Promise<T> {
         const factory = dataObjectClass.factory;
@@ -103,7 +90,7 @@ export class RootDataObject extends DataObject {
     }
 
     private createSharedObject<T extends ISharedObject>(
-        sharedObjectClass: IFluidStaticSharedObjectClass,
+        sharedObjectClass: SharedObjectClass,
         id: string,
     ): T {
         const factory = sharedObjectClass.getFactory();
@@ -127,11 +114,11 @@ const rootDataStoreId = "rootDOId";
  */
 export class DOProviderContainerRuntimeFactory extends BaseContainerRuntimeFactory {
     private readonly rootDataObjectFactory; // type is DataObjectFactory
-    private readonly initialDataObjects: IdToDataObjectCollection;
+    private readonly initialObjects: FluidObjectCollection;
     constructor(
         registryEntries: NamedFluidDataStoreRegistryEntry[],
         sharedObjects: IChannelFactory[],
-        initialDataObjects: IdToDataObjectCollection = {},
+        initialObjects: FluidObjectCollection = {},
     ) {
         const rootDataObjectFactory = new DataObjectFactory(
             "rootDO",
@@ -142,7 +129,7 @@ export class DOProviderContainerRuntimeFactory extends BaseContainerRuntimeFacto
         );
         super([rootDataObjectFactory.registryEntry], [], [defaultRouteRequestHandler(rootDataStoreId)]);
         this.rootDataObjectFactory = rootDataObjectFactory;
-        this.initialDataObjects = initialDataObjects;
+        this.initialObjects = initialObjects;
     }
 
     protected async containerInitializingFirstTime(runtime: IContainerRuntime) {
@@ -155,7 +142,7 @@ export class DOProviderContainerRuntimeFactory extends BaseContainerRuntimeFacto
 
         const initialDataObjects: Promise<IFluidLoadable>[] = [];
         // If the developer provides additional DataObjects we will create them
-        Object.entries(this.initialDataObjects).forEach(([id, dataObjectClass]) => {
+        Object.entries(this.initialObjects).forEach(([id, dataObjectClass]) => {
             initialDataObjects.push(rootDataObject.create(dataObjectClass, id));
         });
 
