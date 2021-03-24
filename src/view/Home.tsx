@@ -10,6 +10,7 @@ import { TextAreaContainerDefinition } from "./TextArea";
 import { TimeClickerContainerDefinition } from "./TimeClicker";
 import { ContainerMapping, ContainerType } from "../utils/ContainerMapping";
 import { ContainerConfig } from "../fluidStatic";
+import { SimpleCounterContainerDefinition } from "./SimpleCounter";
 
 /**
  * Simple page that has buttons to load different experiences powered by Fluid
@@ -19,6 +20,9 @@ export function Home() {
     const createContainer = async (config: ContainerConfig<ContainerType>) => {
         const id = `${config.name}_${Date.now()}`;
         const configInMap = ContainerMapping[config.name];
+        if (configInMap === undefined) {
+            throw new Error(`Missing entry for [${config.name}] in the ContaimerMapping.`);
+        }
         if (config.name !== configInMap.name) {
             // Runtime check to make sure the Container Map isn't mislabeled.
             throw new Error(`ContaimerMapping has mislabeled config. [${config.name}] points to [${configInMap.name}]`);
@@ -40,5 +44,6 @@ export function Home() {
         <button onClick={() => {createContainer(MultiTimeClickerContainerDefinition)}}>New Multi Time Clicker</button>
         <button onClick={() => {createContainer(CollectionExampleContainerDefinition)}}>New Collection Example</button>
         <button onClick={() => {createContainer(TextAreaContainerDefinition)}}>New TextArea</button>
+        <button onClick={() => {createContainer(SimpleCounterContainerDefinition)}}>New Simple Counter</button>
     </div>)
 }

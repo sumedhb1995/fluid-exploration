@@ -5,7 +5,7 @@ import { FluidObject } from "../fluidStatic";
 import { FluidContext } from "./FluidContext";
 
 /**
- * Loads a DataObject of a given type
+ * Loads a FluidObject of a given type
  */
 export function useFluidObject<T extends FluidObject>(id: string): T | undefined {
     const [obj, setObj] = React.useState<T | undefined>();
@@ -66,8 +66,6 @@ export function useSharedMap<T = any>(id: string): [Record<string, T>, (key: str
             return () => {map.off("valueChanged", updateData)};
         }
     }, [map]);
-
-    
 
     const setPair = map
         ? (k:string, v:any) => map.set(k,v)

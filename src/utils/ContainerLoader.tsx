@@ -10,6 +10,7 @@ import { DiceRollerRemote } from "../view/DiceRollerRemote";
 import { MultiTimeClicker } from "../view/MultiTimeClicker";
 import { ContainerMapping, ContainerType } from "./ContainerMapping";
 import { CollectionExample } from "../view/CollectionExample";
+import { SimpleCounter } from "../view/SimpleCounter";
 import { TextArea } from "../view/TextArea";
 
 function useFluidContainer(props: ContainerLoaderProps): [FluidContainer | undefined, boolean] {
@@ -65,6 +66,8 @@ export function ContainerLoader(props: ContainerLoaderProps) {
             <CollectionExample />
             : props.type === "text-area" ?
             <TextArea />
+            : props.type === "simple-counter" ?
+            <SimpleCounter />
             : <div>😢 Error: Unknown container type [{props.type}]</div>
         }
     </FluidContext.Provider>
