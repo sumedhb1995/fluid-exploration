@@ -1,17 +1,16 @@
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
 import { SharedMap } from "@fluidframework/map";
-import { ContainerDefinition } from "../utils/types";
+import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerType } from "../utils/ContainerMapping";
 import { useKeyValuePair, useSharedMap } from "../utils/useDataObject";
 
-export const TimeClickerContainerDefinition: ContainerDefinition = {
-    type: "time",
-    config: {
-        dataTypes: [KeyValueDataObject, SharedMap],
-        initialObjects: {
-            "time-clicker-data": KeyValueDataObject,
-            "time-clicker-map": SharedMap
-        },
-    }
+export const TimeClickerContainerDefinition: ContainerCreateConfig<ContainerType> = {
+    name: "time",
+    dataTypes: [KeyValueDataObject, SharedMap],
+    initialObjects: {
+        "time-clicker-data": KeyValueDataObject,
+        "time-clicker-map": SharedMap
+    },
 }
 
 /**

@@ -1,3 +1,4 @@
+import { ContainerCreateConfig } from "../fluidStatic";
 import { CollectionExampleContainerDefinition } from "../view/CollectionExample";
 import { DiceRollerContainerDefinition } from "../view/DiceRoller";
 import { DiceRollerRemoteContainerDefinition } from "../view/DiceRollerRemote";
@@ -7,13 +8,23 @@ import { NoteBoardContainerDefinition } from "../view/NoteBoard";
 import { TextAreaContainerDefinition } from "../view/TextArea";
 import { TimeClickerContainerDefinition } from "../view/TimeClicker";
 
-export const ContainerMapping = {
-    [DiceRollerContainerDefinition.type]: DiceRollerContainerDefinition,
-    [DiceRollerRemoteContainerDefinition.type]: DiceRollerRemoteContainerDefinition,
-    [MouseContainerDefinition.type]: MouseContainerDefinition,
-    [MultiTimeClickerContainerDefinition.type]: MultiTimeClickerContainerDefinition,
-    [NoteBoardContainerDefinition.type]: NoteBoardContainerDefinition,
-    [TimeClickerContainerDefinition.type]: TimeClickerContainerDefinition,
-    [CollectionExampleContainerDefinition.type]: CollectionExampleContainerDefinition,
-    [TextAreaContainerDefinition.type]: TextAreaContainerDefinition,
-}
+export type ContainerType =
+    "mouse"
+    | "time"
+    | "noteboard"
+    | "dice-roller"
+    | "dice-roller-remote"
+    | "multi-time-clicker"
+    | "collection-example"
+    | "text-area";
+
+export const ContainerMapping: Record<string, ContainerCreateConfig> = {
+    [DiceRollerContainerDefinition.name]: DiceRollerContainerDefinition,
+    [DiceRollerRemoteContainerDefinition.name]: DiceRollerRemoteContainerDefinition,
+    [MouseContainerDefinition.name]: MouseContainerDefinition,
+    [MultiTimeClickerContainerDefinition.name]: MultiTimeClickerContainerDefinition,
+    [NoteBoardContainerDefinition.name]: NoteBoardContainerDefinition,
+    [TimeClickerContainerDefinition.name]: TimeClickerContainerDefinition,
+    [CollectionExampleContainerDefinition.name]: CollectionExampleContainerDefinition,
+    [TextAreaContainerDefinition.name]: TextAreaContainerDefinition,
+};

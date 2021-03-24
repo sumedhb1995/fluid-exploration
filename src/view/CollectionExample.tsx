@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { SharedMapCollection } from "../dataObjects/SharedMapCollection";
-import { ContainerDefinition } from "../utils/types";
+import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerType } from "../utils/ContainerMapping";
 import { useFluidObject } from "../utils/useDataObject";
 
 
-export const CollectionExampleContainerDefinition: ContainerDefinition = {
-    type: "collection-example",
-    config: {
-        dataTypes: [SharedMapCollection],
-        initialObjects: {
-            "shared-map-collection-1": SharedMapCollection
-        },
-    }
+export const CollectionExampleContainerDefinition: ContainerCreateConfig<ContainerType> = {
+    name: "collection-example",
+    dataTypes: [SharedMapCollection],
+    initialObjects: {
+        "shared-map-collection-1": SharedMapCollection
+    },
 }
 
 /**

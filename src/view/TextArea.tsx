@@ -1,16 +1,15 @@
 import React from "react";
 import { SharedString } from "@fluidframework/sequence";
-import { ContainerDefinition } from "../utils/types";
 import { useFluidObject } from "../utils/useDataObject";
+import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerType } from "../utils/ContainerMapping";
 
-export const TextAreaContainerDefinition: ContainerDefinition = {
-    type: "text-area",
-    config: {
-        dataTypes: [SharedString],
-        initialObjects: {
-            "text-area": SharedString
-        },
-    }
+export const TextAreaContainerDefinition: ContainerCreateConfig<ContainerType> = {
+    name: "text-area",
+    dataTypes: [SharedString],
+    initialObjects: {
+        "text-area": SharedString
+    },
 }
 
 /**

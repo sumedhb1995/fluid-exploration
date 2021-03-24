@@ -1,16 +1,15 @@
 import React from "react";
 import { DiceRollerRemoteDataObject, IDiceRollerRemoteDataObject } from "../dataObjects/DiceRollerRemote";
-import { ContainerDefinition } from "../utils/types";
+import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerType } from "../utils/ContainerMapping";
 import { useFluidObject } from "../utils/useDataObject";
 
-export const DiceRollerRemoteContainerDefinition: ContainerDefinition = {
-    type: "dice-roller-remote",
-    config: {
-        dataTypes: [DiceRollerRemoteDataObject],
-        initialObjects: {
-            "dice-roller-remote-key": DiceRollerRemoteDataObject,
-        },
-    }
+export const DiceRollerRemoteContainerDefinition: ContainerCreateConfig<ContainerType> = {
+    name: "dice-roller-remote",
+    dataTypes: [DiceRollerRemoteDataObject],
+    initialObjects: {
+        "dice-roller-remote-key": DiceRollerRemoteDataObject,
+    },
 }
 
 /**

@@ -21,11 +21,12 @@ import {
     isIFluidStaticDataObjectClass,
 } from "./utils";
 
-export interface ContainerConfig {
+export type ContainerConfig<T extends string = string> = {
+    name: T;
     dataTypes: FluidDataType[];
 }
 
-export interface ContainerCreateConfig extends ContainerConfig {
+export type ContainerCreateConfig<T extends string = string> = ContainerConfig<T> & {
     /**
      * initialDataObjects defines dataObjects that will be created when the Container
      * is first created. It uses the key as the id and the value and the DataObject to create.

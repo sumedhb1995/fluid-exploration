@@ -2,14 +2,13 @@ import React from "react";
 import Fluid, { FluidContainer } from "../fluidStatic";
 
 import { MouseTracker } from "../view/MouseTracker";
-import { ContainerType } from "./types";
 import { TimeClicker } from "../view/TimeClicker";
 import { FluidContext } from "./FluidContext";
 import { NoteBoard } from "../view/NoteBoard";
 import { DiceRoller } from "../view/DiceRoller";
 import { DiceRollerRemote } from "../view/DiceRollerRemote";
 import { MultiTimeClicker } from "../view/MultiTimeClicker";
-import { ContainerMapping } from "./ContainerMapping";
+import { ContainerMapping, ContainerType } from "./ContainerMapping";
 import { CollectionExample } from "../view/CollectionExample";
 import { TextArea } from "../view/TextArea";
 
@@ -25,7 +24,7 @@ function useFluidContainer(props: ContainerLoaderProps): [FluidContainer | undef
                 if (containerConfig === undefined) {
                     throw new Error(`Container type ${[props.type]} is not defined in the ContainerMapping`);
                 }
-                const fluidContainer = await Fluid.getContainer(props.id, ContainerMapping[props.type].config);
+                const fluidContainer = await Fluid.getContainer(props.id, ContainerMapping[props.type]);
                 setContainer(fluidContainer);
             } catch(e) {
                 console.log(e);

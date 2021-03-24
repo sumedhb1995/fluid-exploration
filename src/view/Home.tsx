@@ -8,18 +8,24 @@ import { MouseContainerDefinition } from "./MouseTracker";
 import { NoteBoardContainerDefinition } from "./NoteBoard";
 import { TextAreaContainerDefinition } from "./TextArea";
 import { TimeClickerContainerDefinition } from "./TimeClicker";
-import { ContainerDefinition } from "../utils/types";
+import { ContainerMapping, ContainerType } from "../utils/ContainerMapping";
+import { ContainerCreateConfig } from "../fluidStatic";
 
 /**
  * Simple page that has buttons to load different experiences powered by Fluid
  */
 export function Home() {
     // createContainer navigates after the async function completes
-    const createContainer = async (def: ContainerDefinition) => {
-        const id = `${def.type}_${Date.now()}`;
-        await Fluid.createContainer(id, def.config)
+    const createContainer = async (config: ContainerCreateConfig<ContainerType>) => {
+        const id = `${config.name}_${Date.now()}`;
+        const configInMap = ContainerMapping[config.name];
+        if (config.name !== configInMap.name) {
+            // Runtime check to make sure the Container Map isn't mislabeled.
+            throw new Error(`ContaimerMapping has mislabeled config. [${config.name}] points to [${configInMap.name}]`);
+        }
+        await Fluid.createContainer(id, config)
 
-        console.log(`Created Container of type [${def.type}] navigating`);
+        console.log(`Created Container of type [${config.name}]. Navigating to new page`);
 
         // After the container is loaded set the hash which will navigate to the new instance
         window.location.hash = id;

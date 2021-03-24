@@ -1,19 +1,18 @@
 import React from "react";
 import { KeyValueDataObject } from "@fluid-experimental/data-objects";
-import { ContainerDefinition } from "../utils/types";
 import { useKeyValuePair } from "../utils/useDataObject";
 import { MouseTracker, MouseContainerDefinition } from "./MouseTracker";
+import { ContainerCreateConfig } from "../fluidStatic";
+import { ContainerType } from "../utils/ContainerMapping";
 
-export const NoteBoardContainerDefinition: ContainerDefinition = {
-    type: "noteboard",
-    config: {
-        dataTypes: [KeyValueDataObject],
-        initialObjects: {
-            "note-location-data": KeyValueDataObject,
-            "note-content-data": KeyValueDataObject,
-            ...MouseContainerDefinition.config.initialObjects,
-        },
-    }
+export const NoteBoardContainerDefinition: ContainerCreateConfig<ContainerType> = {
+    name: "noteboard",
+    dataTypes: [KeyValueDataObject],
+    initialObjects: {
+        "note-location-data": KeyValueDataObject,
+        "note-content-data": KeyValueDataObject,
+        ...MouseContainerDefinition.initialObjects,
+    },
 }
 
 export interface NoteInfo {

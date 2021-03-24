@@ -5,7 +5,7 @@ import { ContainerLoader } from './utils/ContainerLoader';
 import { Home } from './view/Home';
 
 import './App.css';
-import { ContainerType } from './utils/types';
+import { ContainerType } from './utils/ContainerMapping';
 
 function App() {
     const getExistingInfo = (): {id: string, type: ContainerType} => {
