@@ -6,8 +6,8 @@ import { useFluidObject } from "../utils/useDataObject";
 export const DiceRollerRemoteContainerDefinition: ContainerDefinition = {
     type: "dice-roller-remote",
     config: {
-        dataObjects: [DiceRollerRemoteDataObject],
-        initialDataObjects: {
+        dataTypes: [DiceRollerRemoteDataObject],
+        initialObjects: {
             "dice-roller-remote-key": DiceRollerRemoteDataObject,
         },
     }

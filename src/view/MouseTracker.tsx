@@ -6,8 +6,8 @@ import { useKeyValuePair } from "../utils/useDataObject";
 export const MouseContainerDefinition: ContainerDefinition = {
     type: "mouse",
     config: {
-        dataObjects: [KeyValueDataObject],
-        initialDataObjects: {
+        dataTypes: [KeyValueDataObject],
+        initialObjects: {
             "mouse-track-info": KeyValueDataObject,
         },
     }

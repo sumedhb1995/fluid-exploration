@@ -11,11 +11,11 @@ import {
 } from "@fluidframework/aqueduct";
 import { IContainerRuntime } from "@fluidframework/container-runtime-definitions";
 import { IFluidHandle, IFluidLoadable } from "@fluidframework/core-interfaces";
-import { IChannelFactory } from "@fluidframework/datastore-definitions";
+import { IChannel, IChannelFactory, IFluidDataStoreRuntime } from "@fluidframework/datastore-definitions";
 import { SharedMap } from "@fluidframework/map";
 import { IFluidDataStoreFactory, NamedFluidDataStoreRegistryEntry } from "@fluidframework/runtime-definitions";
 import { requestFluidObject } from "@fluidframework/runtime-utils";
-import { SharedObject } from "@fluidframework/shared-object-base";
+import { ISharedObject } from "@fluidframework/shared-object-base";
 
 import { v4 as uuid } from "uuid";
 
@@ -25,7 +25,8 @@ export type IdToDataObjectCollection = Record<string, FluidDataType>;
 
 export type FluidDataType = IFluidStaticDataObjectClass | IFluidStaticSharedObjectClass;
 
-export type FluidObject = DataObject | SharedObject;
+// export type FluidObject = DataObject | SharedObject;
+export type FluidObject = IFluidLoadable | ISharedObject;
 
 export interface IFluidStaticDataObjectClass {
     readonly factory: IFluidDataStoreFactory;
@@ -69,7 +70,7 @@ export class RootDataObject extends DataObject {
             return this.createDataObject<T>(type,id);
         } else if (isIChannelFactoryCreator(type)) {
             // Create a SharedObject if that's the factory type
-            return this.createSharedObject(type.getFactory(), id) as T;
+            return this.createSharedObject(SharedMap, id) as T;
         }
 
         throw new Error("Could not create new FluidObject because it is not of a know type");
@@ -103,15 +104,14 @@ export class RootDataObject extends DataObject {
         return handle.get();
     }
 
-    private createSharedObject<T extends SharedObject>(
-        factory: IChannelFactory,
+    private createSharedObject<T extends ISharedObject>(
+        sharedObjectClass: IFluidStaticSharedObjectClass,
         id: string,
     ): T {
-        // uuid is a throw away but currently enforced on the API
-        // const obj1 = factory.create(this.runtime, uuid()) as T;
-        const obj = SharedMap.create(this.runtime, uuid());
+        const factory = sharedObjectClass.getFactory();
+        const obj = this.runtime.createChannel(id, factory.type) as T;
         this.sharedObjectDir.set(id, obj.handle);
-        return obj as unknown as T;
+        return obj;
     }
 
     private async getSharedObject<T extends IFluidLoadable>(id: string) {

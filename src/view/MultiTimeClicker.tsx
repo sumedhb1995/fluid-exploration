@@ -9,8 +9,8 @@ import { TimeClickerItemKV } from "./TimeClicker";
 export const MultiTimeClickerContainerDefinition: ContainerDefinition = {
     type: "multi-time-clicker",
     config: {
-        dataObjects: [KeyValueDataObject],
-        initialDataObjects: {
+        dataTypes: [KeyValueDataObject],
+        initialObjects: {
             "object-ids": KeyValueDataObject,
         },
     }

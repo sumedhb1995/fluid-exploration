@@ -7,8 +7,8 @@ import { useFluidObject } from "../utils/useDataObject";
 export const CollectionExampleContainerDefinition: ContainerDefinition = {
     type: "collection-example",
     config: {
-        dataObjects: [SharedMapCollection],
-        initialDataObjects: {
+        dataTypes: [SharedMapCollection],
+        initialObjects: {
             "shared-map-collection-1": SharedMapCollection
         },
     }

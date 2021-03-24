@@ -1,13 +1,14 @@
 import Fluid from "../fluidStatic";
 
+import { CollectionExampleContainerDefinition } from "./CollectionExample";
 import { DiceRollerContainerDefinition } from "./DiceRoller";
 import { DiceRollerRemoteContainerDefinition } from "./DiceRollerRemote";
 import { MultiTimeClickerContainerDefinition } from "./MultiTimeClicker";
 import { MouseContainerDefinition } from "./MouseTracker";
 import { NoteBoardContainerDefinition } from "./NoteBoard";
+import { TextAreaContainerDefinition } from "./TextArea";
 import { TimeClickerContainerDefinition } from "./TimeClicker";
 import { ContainerDefinition } from "../utils/types";
-import { CollectionExampleContainerDefinition } from "./CollectionExample";
 
 /**
  * Simple page that has buttons to load different experiences powered by Fluid
@@ -32,5 +33,6 @@ export function Home() {
         <button onClick={() => {createContainer(DiceRollerRemoteContainerDefinition)}}>New DiceRoller Remote</button>
         <button onClick={() => {createContainer(MultiTimeClickerContainerDefinition)}}>New Multi Time Clicker</button>
         <button onClick={() => {createContainer(CollectionExampleContainerDefinition)}}>New Collection Example</button>
+        <button onClick={() => {createContainer(TextAreaContainerDefinition)}}>New TextArea</button>
     </div>)
 }

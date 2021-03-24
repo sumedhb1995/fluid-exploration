@@ -7,11 +7,11 @@ import { MouseTracker, MouseContainerDefinition } from "./MouseTracker";
 export const NoteBoardContainerDefinition: ContainerDefinition = {
     type: "noteboard",
     config: {
-        dataObjects: [KeyValueDataObject],
-        initialDataObjects: {
+        dataTypes: [KeyValueDataObject],
+        initialObjects: {
             "note-location-data": KeyValueDataObject,
             "note-content-data": KeyValueDataObject,
-            ...MouseContainerDefinition.config.initialDataObjects,
+            ...MouseContainerDefinition.config.initialObjects,
         },
     }
 }

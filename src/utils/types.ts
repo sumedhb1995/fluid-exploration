@@ -7,7 +7,8 @@ export type ContainerType =
     | "dice-roller"
     | "dice-roller-remote"
     | "multi-time-clicker"
-    | "collection-example";
+    | "collection-example"
+    | "text-area";
 
 export interface ContainerDefinition {
     type: ContainerType;

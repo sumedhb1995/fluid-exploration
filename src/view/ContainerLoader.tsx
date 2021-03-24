@@ -11,6 +11,7 @@ import { DiceRollerRemote } from "./DiceRollerRemote";
 import { MultiTimeClicker } from "./MultiTimeClicker";
 import { ContainerMapping } from "../utils/ContainerMapping";
 import { CollectionExample } from "./CollectionExample";
+import { TextArea } from "./TextArea";
 
 function useFluidContainer(props: ContainerLoaderProps): [FluidContainer | undefined, boolean] {
     const [loadingFailed, setLoadingFailed] = React.useState(false);
@@ -63,6 +64,8 @@ export function ContainerLoader(props: ContainerLoaderProps) {
             <MultiTimeClicker />
             : props.type === "collection-example" ?
             <CollectionExample />
+            : props.type === "text-area" ?
+            <TextArea />
             : <div>😢 Error: Unknown container type [{props.type}]</div>
         }
     </FluidContext.Provider>

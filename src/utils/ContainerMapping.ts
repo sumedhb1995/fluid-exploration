@@ -4,6 +4,7 @@ import { DiceRollerRemoteContainerDefinition } from "../view/DiceRollerRemote";
 import { MouseContainerDefinition } from "../view/MouseTracker";
 import { MultiTimeClickerContainerDefinition } from "../view/MultiTimeClicker";
 import { NoteBoardContainerDefinition } from "../view/NoteBoard";
+import { TextAreaContainerDefinition } from "../view/TextArea";
 import { TimeClickerContainerDefinition } from "../view/TimeClicker";
 
 export const ContainerMapping = {
@@ -14,4 +15,5 @@ export const ContainerMapping = {
     [NoteBoardContainerDefinition.type]: NoteBoardContainerDefinition,
     [TimeClickerContainerDefinition.type]: TimeClickerContainerDefinition,
     [CollectionExampleContainerDefinition.type]: CollectionExampleContainerDefinition,
+    [TextAreaContainerDefinition.type]: TextAreaContainerDefinition,
 }

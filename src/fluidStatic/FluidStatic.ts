@@ -22,7 +22,7 @@ import {
 } from "./utils";
 
 export interface ContainerConfig {
-    dataObjects: FluidDataType[];
+    dataTypes: FluidDataType[];
 }
 
 export interface ContainerCreateConfig extends ContainerConfig {
@@ -43,7 +43,7 @@ export interface ContainerCreateConfig extends ContainerConfig {
      *
      * To get these DataObjects, call `container.getDataObject` passing in one of the ids.
      */
-    initialDataObjects?: IdToDataObjectCollection;
+    initialObjects?: IdToDataObjectCollection;
 }
 
 export class FluidContainer extends EventEmitter implements Pick<Container, "audience" | "clientId"> {
@@ -117,7 +117,7 @@ export class FluidInstance {
         const container = await getContainer(
             this.containerService,
             id,
-            new DOProviderContainerRuntimeFactory(registryEntries, sharedObjects, config.initialDataObjects),
+            new DOProviderContainerRuntimeFactory(registryEntries, sharedObjects, config.initialObjects),
             true, /* createNew */
         );
         const rootDataObject = (await container.request({ url: "/" })).value;
@@ -138,10 +138,6 @@ export class FluidInstance {
     }
 
     private getRegistryEntries(dataObjects: IFluidStaticDataObjectClass[]) {
-        if (dataObjects.length === 0) {
-            throw new Error("Container cannot be initialized without DataObjects");
-        }
-
         const dataObjectClassToRegistryEntry = (
             dataObjectClass: IFluidStaticDataObjectClass): NamedFluidDataStoreRegistryEntry =>
             [dataObjectClass.factory.type, Promise.resolve(dataObjectClass.factory)];
@@ -152,7 +148,7 @@ export class FluidInstance {
     private parseDataObjectsFromSharedObjects(config: ContainerConfig): [IFluidStaticDataObjectClass[], IChannelFactory[]] {
         const dataObjects: IFluidStaticDataObjectClass[] = [];
         const sharedObjects: IChannelFactory[] = [];
-        for (const obj of config.dataObjects) {
+        for (const obj of config.dataTypes) {
             if(isIChannelFactoryCreator(obj)){
                 sharedObjects.push(obj.getFactory());
             } else if (isIFluidStaticDataObjectClass(obj)) {
@@ -160,6 +156,10 @@ export class FluidInstance {
             } else {
                 throw new Error(`Entry is neither a DataObject or a SharedObject`);
             }
+        }
+
+        if (dataObjects.length === 0 && sharedObjects.length === 0) {
+            throw new Error("Container cannot be initialized without any DataTypes");
         }
 
         return [dataObjects, sharedObjects]
