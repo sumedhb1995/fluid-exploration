@@ -1,4 +1,4 @@
-import Fluid from "@fluid-experimental/fluid-static";
+import Fluid from "./fluidStatic";
 import { TinyliciousService } from "@fluid-experimental/get-container";
 
 import React from 'react';

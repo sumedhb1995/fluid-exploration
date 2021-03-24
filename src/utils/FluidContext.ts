@@ -1,4 +1,4 @@
-import { FluidContainer } from "@fluid-experimental/fluid-static";
+import { FluidContainer } from "../fluidStatic";
 import React from "react";
 
 /**

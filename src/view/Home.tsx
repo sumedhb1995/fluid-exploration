@@ -1,4 +1,4 @@
-import Fluid from "@fluid-experimental/fluid-static";
+import Fluid from "../fluidStatic";
 
 import { DiceRollerContainerDefinition } from "./DiceRoller";
 import { DiceRollerRemoteContainerDefinition } from "./DiceRollerRemote";

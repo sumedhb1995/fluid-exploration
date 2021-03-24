@@ -1,5 +1,5 @@
 import React from "react";
-import Fluid, { FluidContainer } from "@fluid-experimental/fluid-static";
+import Fluid, { FluidContainer } from "../fluidStatic";
 
 import { MouseTracker } from "./MouseTracker";
 import { ContainerType } from "../utils/types";

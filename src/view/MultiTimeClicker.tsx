@@ -24,7 +24,7 @@ export function MultiTimeClicker() {
     
     const createNewTimeClicker = async () => {
         const id = Date.now().toString();
-        await container.createDataObject(KeyValueDataObject, id);
+        await container.create(KeyValueDataObject, id);
 
         // We set the id as a key so we can get them later
         setPair(id, "");

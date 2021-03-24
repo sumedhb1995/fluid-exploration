@@ -1,4 +1,4 @@
-import { ContainerCreateConfig } from "@fluid-experimental/fluid-static";
+import { ContainerCreateConfig } from "../fluidStatic";
 
 export type ContainerType =
     "mouse"
