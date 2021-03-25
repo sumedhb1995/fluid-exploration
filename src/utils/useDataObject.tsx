@@ -44,7 +44,7 @@ export function useKeyValuePair<T = any>(id: string): [Record<string, T>, (key: 
 
     const setPair = kvPair
         ? kvPair.set
-        : () => { throw new Error(`Attempting to write to DataObject ${id} that is not yet loaded. Ensure you are waiting on the loading boolean.`)};
+        : () => { throw new Error(`Attempting to write to KeyValuePair ${id} that is not yet loaded. Ensure you are waiting on the loading boolean.`)};
     return [data, setPair, kvPair === undefined];
 }
 
@@ -69,6 +69,6 @@ export function useSharedMap<T = any>(id: string): [Record<string, T>, (key: str
 
     const setPair = map
         ? (k:string, v:any) => map.set(k,v)
-        : () => { throw new Error(`Attempting to write to DataObject ${id} that is not yet loaded. Ensure you are waiting on the loading boolean.`)};
+        : () => { throw new Error(`Attempting to write to SharedMap ${id} that is not yet loaded. Ensure you are waiting on the loading boolean.`)};
     return [data, setPair, map === undefined];
 }
