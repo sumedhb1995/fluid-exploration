@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 import { ContainerLoader } from './utils/ContainerLoader';
@@ -6,12 +5,13 @@ import { Home } from './view/Home';
 
 import './App.css';
 import { ContainerType } from './utils/ContainerMapping';
+import { decodeContentUrlParam } from './utils/odspUtils' 
 
 function App() {
     const getExistingInfo = (): {id: string, type: ContainerType} => {
-        const id = window.location.hash.substring(1);
-        const type = id.split("_")[0] as ContainerType;
-        return {id, type};
+        const [type, encodedUrl] = window.location.hash.substring(1).split("_");
+        const id = encodedUrl ? decodeContentUrlParam(encodedUrl) : "";
+        return {id, type: type as ContainerType};
     };
     const [state, setState] = React.useState(getExistingInfo());
     const homePage = window.location.hash.length === 0;

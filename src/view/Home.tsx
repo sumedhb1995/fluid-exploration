@@ -11,6 +11,7 @@ import { TimeClickerContainerDefinition } from "./TimeClicker";
 import { ContainerMapping, ContainerType } from "../utils/ContainerMapping";
 import { ContainerConfig } from "../fluidStatic";
 import { SimpleCounterContainerDefinition } from "./SimpleCounter";
+import { encodeContentUrlParam } from "../utils/odspUtils";
 
 /**
  * Simple page that has buttons to load different experiences powered by Fluid
@@ -18,21 +19,27 @@ import { SimpleCounterContainerDefinition } from "./SimpleCounter";
 export function Home() {
     // createContainer navigates after the async function completes
     const createContainer = async (config: ContainerConfig<ContainerType>) => {
-        const id = `${config.name}_${Date.now()}`;
+        const id = `${Date.now()}`;
         const configInMap = ContainerMapping[config.name];
+
         if (configInMap === undefined) {
-            throw new Error(`Missing entry for [${config.name}] in the ContaimerMapping.`);
+            throw new Error(`Missing entry for [${config.name}] in the ContainerMapping.`);
         }
         if (config.name !== configInMap.name) {
             // Runtime check to make sure the Container Map isn't mislabeled.
-            throw new Error(`ContaimerMapping has mislabeled config. [${config.name}] points to [${configInMap.name}]`);
+            throw new Error(`ContainerMapping has mislabeled config. [${config.name}] points to [${configInMap.name}]`);
         }
-        await Fluid.createContainer(id, config)
+        const container = await Fluid.createContainer(id, config)
 
         console.log(`Created Container of type [${config.name}]. Navigating to new page`);
 
         // After the container is loaded set the hash which will navigate to the new instance
-        window.location.hash = id;
+        const absoluteUrl =  await container.absoluteUrl;
+        if (!absoluteUrl) {
+            throw new Error("Failed to create container, no URL returned");
+        }
+        const urlHash = `${config.name}_${encodeContentUrlParam(absoluteUrl)}`;
+        window.location.hash = urlHash;
     }
     return (
     <div>
