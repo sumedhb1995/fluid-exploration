@@ -25,16 +25,7 @@ import {
     FluidObjectClass,
 } from "./types";
 import { IRequest } from "@fluidframework/core-interfaces";
-import {
-    IDocumentServiceFactory,
-    IUrlResolver,
-} from "@fluidframework/driver-definitions";
-
-export interface IGetContainerService {
-    documentServiceFactory: IDocumentServiceFactory;
-    urlResolver: IUrlResolver;
-    generateCreateNewRequest(id: string): IRequest;
-}
+import { IGetContainerService } from "./getContainer";
 
 export class FluidContainer extends EventEmitter implements Pick<Container, "audience" | "clientId"> {
     private readonly types: Set<string>;

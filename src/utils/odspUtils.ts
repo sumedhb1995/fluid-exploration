@@ -10,7 +10,7 @@ import {
   IDocumentServiceFactory,
   IUrlResolver,
 } from "@fluidframework/driver-definitions";
-import { IGetContainerService } from "../fluidStatic/FluidStatic";
+import { IGetContainerService } from "../fluidStatic/getContainer";
 
 export const pushServiceToken =
   "";
