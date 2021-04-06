@@ -3,11 +3,8 @@
  * Licensed under the MIT License.
  */
 
-import {
-    IRuntimeFactory,
-} from "@fluidframework/container-definitions";
 import { EventEmitter } from "events";
-import { Container, Loader } from "@fluidframework/container-loader";
+import { Container } from "@fluidframework/container-loader";
 import { IChannelFactory } from "@fluidframework/datastore-definitions";
 import { NamedFluidDataStoreRegistryEntry } from "@fluidframework/runtime-definitions";
 import {
@@ -24,8 +21,7 @@ import {
     FluidObject,
     FluidObjectClass,
 } from "./types";
-import { IRequest } from "@fluidframework/core-interfaces";
-import { IGetContainerService } from "./getContainer";
+import { IGetContainerService, getContainer } from "./getContainer";
 
 export class FluidContainer extends EventEmitter implements Pick<Container, "audience" | "clientId"> {
     private readonly types: Set<string>;
@@ -100,7 +96,7 @@ export class FluidInstance {
         const [dataObjects, sharedObjects] = this.parseDataObjectsFromSharedObjects(config);
         const registryEntries = this.getRegistryEntries(dataObjects);
         const request = this.containerService.generateCreateNewRequest(id);
-        const container = await this.getContainerInternal(
+        const container = await getContainer(
             this.containerService,
             request,
             new DOProviderContainerRuntimeFactory(registryEntries, sharedObjects, config.initialObjects),
@@ -113,7 +109,7 @@ export class FluidInstance {
     public async getContainer(id: string, config: ContainerConfig): Promise<FluidContainer> {
         const [dataObjects, sharedObjects] = this.parseDataObjectsFromSharedObjects(config);
         const registryEntries = this.getRegistryEntries(dataObjects);
-        const container = await this.getContainerInternal(
+        const container = await getContainer(
             this.containerService,
             { url: id },
             new DOProviderContainerRuntimeFactory(registryEntries, sharedObjects),
@@ -122,43 +118,6 @@ export class FluidInstance {
         const rootDataObject = (await container.request({ url: "/" })).value;
         return new FluidContainer(container, registryEntries, rootDataObject, false /* createNew */);
     }
-
-    private async getContainerInternal(
-        getContainerService: IGetContainerService,
-        request: IRequest,
-        containerRuntimeFactory: IRuntimeFactory,
-        createNew: boolean,
-    ): Promise<Container> {
-        const module = { fluidExport: containerRuntimeFactory };
-        const codeLoader = { load: async () => module };
-    
-        const loader = new Loader({
-            urlResolver: getContainerService.urlResolver,
-            documentServiceFactory: getContainerService.documentServiceFactory,
-            codeLoader,
-        });
-    
-        let container: Container;
-    
-        if (createNew) {
-            // We're not actually using the code proposal (our code loader always loads the same module regardless of the
-            // proposal), but the Container will only give us a NullRuntime if there's no proposal.  So we'll use a fake
-            // proposal.
-            container = await loader.createDetachedContainer({ package: "no-dynamic-package", config: {} });
-            await container.attach(request);
-        } else {
-            // Request must be appropriate and parseable by resolver.
-            container = await loader.resolve(request);
-            // If we didn't create the container properly, then it won't function correctly.  So we'll throw if we got a
-            // new container here, where we expect this to be loading an existing container.
-            // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-            if (!container.existing) {
-                throw new Error("Attempted to load a non-existing container");
-            }
-        }
-        return container;
-    }
-    
 
     private getRegistryEntries(dataObjects: DataObjectClass[]) {
         const dataObjectClassToRegistryEntry = (
