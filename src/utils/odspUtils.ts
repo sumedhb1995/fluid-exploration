@@ -12,17 +12,12 @@ import {
 } from "@fluidframework/driver-definitions";
 import { IGetContainerService } from "../fluidStatic/getContainer";
 
-export const pushServiceToken =
-  "";
-export const sharePointToken =
-  "";
-
 export class OdspService implements IGetContainerService {
   public readonly documentServiceFactory: IDocumentServiceFactory;
   public readonly urlResolver: IUrlResolver;
   public readonly generateCreateNewRequest: (id: string) => IRequest;
 
-  constructor(sharePointToken: string, pushServiceToken: string) {
+  constructor(sharePointToken: string, pushServiceToken: string, driveInfo: IDriveInfo) {
     this.documentServiceFactory = new OdspDocumentServiceFactory(
       async () => Promise.resolve(sharePointToken),
       async () => Promise.resolve(pushServiceToken),
@@ -30,12 +25,7 @@ export class OdspService implements IGetContainerService {
     );
     this.urlResolver = createUrlResolver(sharePointToken);
     this.generateCreateNewRequest = (id: string) => {
-      return getOdspCreateNewRequest("Tab Docs", id, sharePointToken, {
-        siteUrl:
-          "https://a830edad9050849844e21031200-my.sharepoint.com/personal/fhldev15_a830edad9050849844e21031200_onmicrosoft_com",
-        driveId:
-          "b!3imsHJcKN0qaCL_38rB9iXK1swbXCnBAov0Tb4jDrAQEQdrBZUsbQJwqX8FCZtpo",
-      });
+      return getOdspCreateNewRequest("Tab Docs", id, sharePointToken, driveInfo);
     };
   }
 }

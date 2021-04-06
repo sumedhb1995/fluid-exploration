@@ -8,11 +8,14 @@ import App from './App';
 
 import {
   OdspService,
+} from './utils/odspUtils';
+import {
+  driveInfo,
   pushServiceToken,
   sharePointToken,
-} from './utils/odspUtils';
+} from './Config';
 // Initialize Fluid with the ODSP service
-Fluid.init(new OdspService(sharePointToken, pushServiceToken));
+Fluid.init(new OdspService(sharePointToken, pushServiceToken, driveInfo));
 
 // import { TinyliciousService } from './fluidStatic/getContainer';
 // // Initialize Fluid with the Tinylicious service
